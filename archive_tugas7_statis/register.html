@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Daftarkan akun kurator baru untuk portal preservasi digital Nusantara Gallery Art." />
+    <title>Buat Akun Kurator | Nusantara Gallery Art</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Lora:ital,wght@0,400;0,600;1,400&family=Onest:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script src="assets/js/main.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Lewati ke konten</a>
+
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="Nusantara Gallery Art, beranda">
+        <h1>Nusantara <span>Gallery Art</span></h1>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="global-nav" aria-label="Buka navigasi">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="global-nav" id="global-nav" aria-label="Navigasi utama">
+        <a href="index.html">Beranda</a>
+        <a href="catalog.html">Koleksi</a>
+        <a href="index.html#pameran">Buku Sketsa &amp; 3D</a>
+        <a href="about.html">Tentang Kami</a>
+        <button class="theme-toggle-btn" type="button" data-theme-toggle aria-label="Ganti Tema">
+          <span class="icon">🌙</span> Dark Mode
+        </button>
+        <a href="login.html" class="btn-login">Portal Kurator</a>
+      </nav>
+    </header>
+
+    <main id="main-content" class="auth-main">
+      <section class="login-section" aria-labelledby="register-title">
+        <article class="login-card">
+          <div class="auth-header-badge">
+            <span class="auth-badge-tag">Sistem Informasi GLAM</span>
+            <span class="auth-badge-id">PORTAL-REGISTER</span>
+          </div>
+
+          <h2 id="register-title">Buat Akun Kurator Baru</h2>
+          <p class="auth-intro">Daftarkan akun kurator baru untuk mendapatkan akses ke lembar preservasi digital dan sistem entri metadata koleksi GLAM Nusantara Gallery Art.</p>
+
+          <!-- Formulir Pendaftaran Kurator Baru -->
+          <form class="login-form" id="register-form" data-register-form novalidate>
+            <div class="form-group">
+              <label for="reg-nama">Nama Lengkap Kurator <span class="required-indicator">*</span></label>
+              <input
+                id="reg-nama"
+                type="text"
+                name="reg_nama"
+                placeholder="Contoh: Mohammad Yanuar Rizky"
+                required
+                minlength="3"
+                autocomplete="name"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="reg-nip">NIP / Nomor Identitas Pegawai <span class="required-indicator">*</span></label>
+              <input
+                id="reg-nip"
+                type="text"
+                name="reg_nip"
+                placeholder="Contoh: 250911718423"
+                required
+                pattern="[0-9]{6,20}"
+                title="Masukkan NIP berupa angka (6–20 digit)"
+                autocomplete="off"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="reg-email">Alamat Surel Institusi (Email) <span class="required-indicator">*</span></label>
+              <input
+                id="reg-email"
+                type="email"
+                name="reg_email"
+                placeholder="kurator@institusi.ac.id"
+                required
+                autocomplete="email"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="reg-divisi">Divisi Preservasi GLAM <span class="required-indicator">*</span></label>
+              <select id="reg-divisi" name="reg_divisi" required>
+                <option value="" disabled selected>-- Pilih Divisi Lembaga --</option>
+                <option value="Galeri Seni">Galeri Seni (Lukisan &amp; Seni Rupa)</option>
+                <option value="Perpustakaan Digital">Perpustakaan Digital (Naskah Kuno &amp; Manuskrip)</option>
+                <option value="Pusat Arsip Sejarah">Pusat Arsip Sejarah (Kartografi &amp; Dokumen)</option>
+                <option value="Museum Warisan Budaya">Museum Warisan Budaya (Artefak &amp; Pahat Andesit)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="reg-password">Buat Kata Sandi <span class="required-indicator">*</span></label>
+              <input
+                id="reg-password"
+                type="password"
+                name="reg_password"
+                placeholder="Minimal 6 karakter"
+                required
+                minlength="6"
+                autocomplete="new-password"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="reg-confirm">Konfirmasi Kata Sandi <span class="required-indicator">*</span></label>
+              <input
+                id="reg-confirm"
+                type="password"
+                name="reg_confirm"
+                placeholder="Ulangi kata sandi"
+                required
+                minlength="6"
+                autocomplete="new-password"
+              />
+            </div>
+
+            <button class="button button-primary btn-vermilion button-full" type="submit">
+              Daftarkan Akun &amp; Buka Formulir <span aria-hidden="true">↗</span>
+            </button>
+            <p class="form-message" data-reg-message aria-live="polite"></p>
+          </form>
+
+          <!-- Tautan kembali ke Login -->
+          <p class="auth-switch-text">
+            Sudah memiliki akun? <a href="login.html" class="text-link">Masuk ke Portal Kurator →</a>
+          </p>
+
+          <div class="auth-card-footer">
+            <a class="text-link return-link" href="index.html">← Kembali ke Beranda Galeri</a>
+            <span class="auth-security-note">🔒 Terenkripsi Standar Sistem GLAM</span>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer class="site-footer page-width">
+      <hr />
+      <p>© 2026 Mohammad Yanuar Rizky (NIM 250911718423) — Program Studi Sarjana Terapan Perpustakaan Digital, Universitas Negeri Malang</p>
+    </footer>
+  </body>
+</html>

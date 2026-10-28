@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Telusuri koleksi lukisan, naskah, dan artefak Nusantara." />
+    <title>Koleksi | Nusantara Gallery Art</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script src="assets/js/main.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Lewati ke konten</a>
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="Nusantara Gallery Art, beranda"><h1>Nusantara <span>Gallery Art</span></h1></a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="global-nav" aria-label="Buka navigasi"><span></span><span></span><span></span></button>
+      <nav class="global-nav" id="global-nav" aria-label="Navigasi utama">
+        <a href="index.html">Beranda</a><a href="catalog.html" aria-current="page">Koleksi</a><a href="index.html#pameran">Buku Sketsa &amp; 3D</a><a href="about.html">Tentang Kami</a>
+        <button class="theme-toggle-btn" type="button" data-theme-toggle aria-label="Ganti Tema">
+          <span class="icon">🌙</span> Dark Mode
+        </button>
+        <a href="login.html" class="btn-login">Portal Kurator</a>
+      </nav>
+    </header>
+    <main id="main-content" class="page-width">
+      <header class="page-title">
+        <p class="eyebrow">Arsip terbuka · 04 rekod</p>
+        <h2>Koleksi yang merawat ingatan.</h2>
+        <p>Telusuri karya pilihan dan catatan konteksnya. Gunakan pencarian dan kategori untuk menemukan rekod yang relevan.</p>
+      </header>
+      <section aria-label="Pencarian dan filter koleksi">
+        <section class="catalog-tools">
+          <label class="search-field" for="catalog-search">
+            <input id="catalog-search" type="search" aria-label="Cari judul, seniman, atau era" placeholder="Cari judul, seniman, atau era…" autocomplete="off" />
+          </label>
+          <nav class="filter-list" aria-label="Filter kategori">
+            <button class="filter-button" type="button" data-filter="all" aria-pressed="true">Semua</button>
+            <button class="filter-button" type="button" data-filter="naskah">Naskah Kuno</button>
+            <button class="filter-button" type="button" data-filter="lukisan">Lukisan Klasik</button>
+            <button class="filter-button" type="button" data-filter="artefak">Artefak 3D</button>
+          </nav>
+          <p class="result-count" data-result-count aria-live="polite">4 koleksi</p>
+        </section>
+        <section class="catalog-grid" data-catalog-grid aria-label="Daftar koleksi">
+          <article class="catalog-card" data-category="lukisan" data-search="penangkapan pangeran diponegoro raden saleh 1857 jawa lukisan">
+            <figure><img src="assets/images/diponegoro.jpg" alt="Lukisan Penangkapan Pangeran Diponegoro karya Raden Saleh" /><span>Lukisan klasik</span></figure>
+            <section><h3>Penangkapan Pangeran Diponegoro</h3><p class="meta-artist">Raden Saleh</p><span class="era">Jawa · 1857</span><a class="text-link" href="detail.html?id=diponegoro-lukisan">Lihat rekod <span aria-hidden="true">→</span></a></section>
+          </article>
+          <article class="catalog-card" data-category="naskah" data-search="babad diponegoro naskah kuno pangeran diponegoro abad 19 manuskrip jawa">
+            <figure><img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="Ilustrasi lembaran manuskrip dan buku arsip" loading="lazy" /><span>Naskah kuno</span></figure>
+            <section><h3>Babad Diponegoro</h3><p class="meta-artist">Pangeran Diponegoro</p><span class="era">Jawa · Abad ke-19</span><a class="text-link" href="detail.html?id=babad-diponegoro">Lihat rekod <span aria-hidden="true">→</span></a></section>
+          </article>
+          <article class="catalog-card" data-category="artefak" data-search="arca prajnaparamita artefak 3d singhasari batu abad 13">
+            <figure><img src="https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="Ilustrasi objek seni dan arca dalam ruang pamer" loading="lazy" /><span>Artefak 3D</span></figure>
+            <section><h3>Arca Prajnaparamita</h3><p class="meta-artist">Pemahat tak dikenal</p><span class="era">Singhasari · Abad ke-13</span><a class="text-link" href="detail.html?id=arca-prajnaparamita">Lihat rekod <span aria-hidden="true">→</span></a></section>
+          </article>
+          <article class="catalog-card" data-category="lukisan" data-search="perburuan rusa lukisan klasik raden saleh 1846 romantisisme">
+            <figure><img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="Ilustrasi lukisan klasik dalam koleksi seni" loading="lazy" /><span>Lukisan klasik</span></figure>
+            <section><h3>Perburuan Rusa</h3><p class="meta-artist">Raden Saleh</p><span class="era">Jawa · 1846</span><a class="text-link" href="detail.html?id=perburuan-rusa">Lihat rekod <span aria-hidden="true">→</span></a></section>
+          </article>
+          <p class="empty-state" data-empty-state hidden>Tidak ada koleksi yang sesuai. Coba kata kunci atau kategori lain.</p>
+        </section>
+      </section>
+    </main>
+    <footer class="site-footer page-width"><hr /><p>© 2026 Mohammad Yanuar Rizky (NIM 250911718423) — Program Studi Sarjana Terapan Perpustakaan Digital, Universitas Negeri Malang</p><a href="#main-content" class="back-to-top">Kembali ke atas ↑</a></footer>
+  </body>
+</html>

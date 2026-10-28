@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Rekod metadata koleksi Nusantara Gallery Art." />
+    <title>Detail Koleksi | Nusantara Gallery Art</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script src="assets/js/main.js" defer></script>
+    <script>
+      /* ── Database koleksi ──────────────────────────────────────────── */
+      const KOLEKSI = {
+        'diponegoro-lukisan': {
+          inventaris : 'NG-1857-001',
+          judul      : 'Penangkapan Pangeran Diponegoro',
+          kategori   : 'Lukisan Klasik',
+          pencipta   : 'Raden Saleh (c. 1811–1880)',
+          tahun      : '1857',
+          medium     : 'Cat minyak pada kanvas',
+          dimensi    : '112 × 179 cm',
+          provenans  : 'Koleksi Istana Kepresidenan Republik Indonesia; dokumentasi digital untuk keperluan edukasi.',
+          gambar     : 'assets/images/diponegoro.jpg',
+          altGambar  : 'Lukisan Penangkapan Pangeran Diponegoro karya Raden Saleh',
+          caption    : 'Raden Saleh · 1857 · Koleksi Istana Kepresidenan Republik Indonesia',
+          catatan    : 'Lukisan ini merekam peristiwa penangkapan Pangeran Diponegoro oleh pasukan kolonial di Magelang pada 1830. Dibuat lebih dari dua dekade setelah peristiwa tersebut, komposisi Raden Saleh dapat dibaca sebagai tanggapan terhadap tradisi lukisan sejarah Eropa sekaligus pernyataan tentang kuasa dan martabat.',
+          ruang3D    : 'RUANG 01 — LUKISAN SEJARAH',
+          tipeVisual : 'lukisan',
+          frameColor : '#4d3a2b',
+          infoVisual : 'Orientasi horizontal kanvas klasik dengan simulasi bayangan bingkai kayu jati ukir Jawa.'
+        },
+        'babad-diponegoro': {
+          inventaris : 'NG-1800-002',
+          judul      : 'Babad Diponegoro',
+          kategori   : 'Naskah Kuno',
+          pencipta   : 'Pangeran Diponegoro',
+          tahun      : 'Abad ke-19',
+          medium     : 'Tinta pada kertas Eropa dan daluang',
+          dimensi    : 'Tidak diketahui (manuskrip multi-jilid)',
+          provenans  : 'Koleksi Perpustakaan Nasional Republik Indonesia; terdaftar sebagai Warisan Dokumenter UNESCO Memory of the World.',
+          gambar     : 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=900&q=80',
+          altGambar  : 'Ilustrasi lembaran manuskrip dan buku arsip kuno',
+          caption    : 'Pangeran Diponegoro · Abad ke-19 · Perpustakaan Nasional RI',
+          catatan    : 'Babad Diponegoro adalah memoar autobiografis yang ditulis oleh Pangeran Diponegoro selama masa pengasingannya di Manado dan Makassar (1830–1855). Naskah ini dianggap sebagai sumber primer paling penting untuk memahami Perang Jawa (1825–1830) dari perspektif Jawa dan telah ditetapkan sebagai bagian dari UNESCO Memory of the World pada 2013.',
+          ruang3D    : 'RUANG 02 — MANUSKRIP & ARSIP LITERASI',
+          tipeVisual : 'naskah',
+          frameColor : '#523a28',
+          infoVisual : 'Simulasi lembaran manuskrip kuno (daluang) dalam ruang pamer preservasi dokumen historis.'
+        },
+        'arca-prajnaparamita': {
+          inventaris : 'NG-1300-003',
+          judul      : 'Arca Prajnaparamita',
+          kategori   : 'Artefak 3D',
+          pencipta   : 'Pemahat tak dikenal (Singhasari)',
+          tahun      : 'Abad ke-13',
+          medium     : 'Batu andesit',
+          dimensi    : 'Tinggi ± 126 cm',
+          provenans  : 'Ditemukan di Singhasari, Malang; kini tersimpan di Museum Nasional Indonesia, Jakarta. Replika digital untuk keperluan edukasi.',
+          gambar     : 'https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?auto=format&fit=crop&w=900&q=80',
+          altGambar  : 'Ilustrasi objek seni dan arca dalam ruang pamer galeri',
+          caption    : 'Pemahat tak dikenal · Abad ke-13 · Museum Nasional Indonesia',
+          catatan    : 'Arca Prajnaparamita dari Singhasari merupakan salah satu mahakarya seni pahat klasik Jawa. Arca ini menggambarkan dewi kebijaksanaan sempurna dalam tradisi Buddha Vajrayana dan diyakini merupakan perwujudan posthumous Permaisuri Ken Dedes. Kehalusan pahatan dan ekspresi wajahnya menjadikannya ikon seni rupa Asia Tenggara.',
+          ruang3D    : 'RUANG 03 — ARTEFAK & LITOGRAFI KERAJAAN',
+          tipeVisual : 'artefak',
+          frameColor : '#3d3f44',
+          infoVisual : 'Tampilan artefak batu andesit 3D dengan pencahayaan dramatis galeri arkeologi.'
+        },
+        'perburuan-rusa': {
+          inventaris : 'NG-1846-004',
+          judul      : 'Perburuan Rusa',
+          kategori   : 'Lukisan Klasik',
+          pencipta   : 'Raden Saleh (c. 1811–1880)',
+          tahun      : '1846',
+          medium     : 'Cat minyak pada kanvas',
+          dimensi    : '178 × 262 cm',
+          provenans  : 'Koleksi Museum Negeri Sonobudoyo, Yogyakarta; dokumentasi digital untuk keperluan edukasi.',
+          gambar     : 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&w=900&q=80',
+          altGambar  : 'Ilustrasi lukisan klasik romantisisme dalam koleksi seni',
+          caption    : 'Raden Saleh · 1846 · Museum Negeri Sonobudoyo, Yogyakarta',
+          catatan    : 'Perburuan Rusa mencerminkan pengaruh kuat aliran Romantisisme Eropa pada Raden Saleh, yang menghabiskan dua dekade belajar di Belanda, Jerman, dan Prancis. Dinamika komposisi, penggambaran gerak hewan, dan dramatisasi cahaya-gelap menunjukkan penguasaan teknik Romantisme yang setara dengan pelukis Eropa sezamannya.',
+          ruang3D    : 'RUANG 04 — ROMANTISISME NUSANTARA',
+          tipeVisual : 'lukisan',
+          frameColor : '#59442e',
+          infoVisual : 'Tampilan format panorama kanvas lebar gaya Romantisisme abad ke-19.'
+        }
+      };
+
+      let activeItemData = null;
+
+      /* ── Render halaman setelah DOM siap ──────────────────────────── */
+      document.addEventListener('DOMContentLoaded', () => {
+        const params = new URLSearchParams(window.location.search);
+        const id     = params.get('id');
+        const data   = KOLEKSI[id];
+
+        /* Jika id tidak dikenal, redirect ke katalog */
+        if (!data) {
+          window.location.replace('catalog.html');
+          return;
+        }
+
+        activeItemData = data;
+
+        /* Update <title> dan <meta description> */
+        document.title = `${data.judul} | Nusantara Gallery Art`;
+        document.querySelector('meta[name="description"]').setAttribute(
+          'content',
+          `Metadata dan catatan kuratorial ${data.judul} — ${data.kategori}.`
+        );
+
+        /* Render header halaman */
+        document.querySelector('[data-detail-eyebrow]').textContent =
+          `Rekod koleksi · ${data.inventaris}`;
+        document.querySelector('[data-detail-judul]').textContent = data.judul;
+
+        /* Render gambar */
+        const img = document.querySelector('[data-detail-img]');
+        img.src = data.gambar;
+        img.alt = data.altGambar;
+        document.querySelector('[data-detail-caption]').textContent = data.caption;
+
+        /* Render badge kategori */
+        document.querySelector('[data-detail-kategori]').textContent = data.kategori;
+
+        /* Render tabel metadata */
+        document.querySelector('[data-td-inventaris]').textContent = data.inventaris;
+        document.querySelector('[data-td-judul]').textContent      = data.judul;
+        document.querySelector('[data-td-pencipta]').textContent   = data.pencipta;
+        document.querySelector('[data-td-tahun]').textContent      = data.tahun;
+        document.querySelector('[data-td-medium]').textContent     = data.medium;
+        document.querySelector('[data-td-dimensi]').textContent    = data.dimensi;
+        document.querySelector('[data-td-provenans]').textContent  = data.provenans;
+
+        /* Render catatan kuratorial */
+        document.querySelector('[data-detail-catatan]').textContent = data.catatan;
+
+        /* Hubungkan tombol Virtual Exhibition 3D */
+        const btnExhibit = document.querySelector('[data-btn-exhibit]');
+        btnExhibit.addEventListener('click', () => {
+          openVirtualModal(data);
+        });
+      });
+
+      /* ── Virtual 3D Modal Controller ──────────────────────────────── */
+      let modalViewerActive = false;
+      let modalAnimId = null;
+
+      function openVirtualModal(item) {
+        const overlay = document.querySelector('#modal-3d-overlay');
+        document.querySelector('#modal-artwork-title').textContent = item.judul;
+        document.querySelector('#modal-room-tag').textContent = `${item.ruang3D} · ${item.tahun}`;
+        document.querySelector('#modal-info-footer').textContent = item.infoVisual;
+
+        overlay.classList.add('is-active');
+        document.body.style.overflow = 'hidden';
+        initModal3DCanvas(item);
+      }
+
+      function closeVirtualModal() {
+        const overlay = document.querySelector('#modal-3d-overlay');
+        overlay.classList.remove('is-active');
+        document.body.style.overflow = '';
+        modalViewerActive = false;
+        if (modalAnimId) {
+          cancelAnimationFrame(modalAnimId);
+          modalAnimId = null;
+        }
+      }
+
+      function initModal3DCanvas(item) {
+        const canvas = document.querySelector('#modal-canvas-3d');
+        const ctx = canvas.getContext('2d');
+        modalViewerActive = true;
+
+        const img = new Image();
+        img.onload = () => {
+          if (modalViewerActive) render();
+        };
+        img.onerror = () => {
+          img.src = 'assets/images/diponegoro.jpg';
+        };
+        img.src = item.gambar;
+
+        let rotX = 0, rotY = 0;
+        let targetRotX = 0, targetRotY = 0;
+        let zoom = 1.0;
+        let targetZoom = 1.0;
+        let isDragging = false;
+        let lastMouseX = 0, lastMouseY = 0;
+
+        function resize() {
+          const rect = canvas.getBoundingClientRect();
+          const dpr = Math.min(window.devicePixelRatio || 1, 2);
+          canvas.width = Math.round(rect.width * dpr);
+          canvas.height = Math.round(rect.height * dpr);
+        }
+        resize();
+
+        function render() {
+          if (!modalViewerActive) return;
+
+          rotX += (targetRotX - rotX) * 0.08;
+          rotY += (targetRotY - rotY) * 0.08;
+          zoom += (targetZoom - zoom) * 0.1;
+
+          const w = canvas.width;
+          const h = canvas.height;
+          const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+          ctx.clearRect(0, 0, w, h);
+
+          // Background Gallery Studio
+          const bgGrad = ctx.createRadialGradient(w / 2, h / 2, 40 * dpr, w / 2, h / 2, Math.max(w, h) * 0.7);
+          bgGrad.addColorStop(0, '#242023');
+          bgGrad.addColorStop(0.65, '#131114');
+          bgGrad.addColorStop(1, '#09080a');
+          ctx.fillStyle = bgGrad;
+          ctx.fillRect(0, 0, w, h);
+
+          // Floor grid perspective
+          ctx.save();
+          ctx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
+          ctx.lineWidth = 1 * dpr;
+          const floorY = h * 0.78;
+          for (let gx = -w; gx <= w * 2; gx += 80 * dpr) {
+            ctx.beginPath();
+            ctx.moveTo(w / 2, floorY * 0.5);
+            ctx.lineTo(gx, h);
+            ctx.stroke();
+          }
+          ctx.restore();
+
+          // Render Objek 3D (Kanvas / Artefak / Manuskrip)
+          ctx.save();
+          ctx.translate(w / 2, h / 2 - 15 * dpr);
+
+          // Penerapan rotasi 3D pseudo perspektif
+          const cosY = Math.cos(rotY);
+          const sinY = Math.sin(rotY);
+          const cosX = Math.cos(rotX);
+          const sinX = Math.sin(rotX);
+
+          ctx.transform(cosY * zoom, sinX * 0.3 * zoom, -sinY * 0.2 * zoom, cosX * zoom, 0, 0);
+
+          // Dimensi display objek
+          const baseDim = Math.min(w * 0.62, h * 0.68);
+          const aspect = (img.naturalWidth && img.naturalHeight) ? (img.naturalWidth / img.naturalHeight) : 1.5;
+          let objW, objH;
+
+          if (item.tipeVisual === 'artefak') {
+            objH = baseDim * 0.95;
+            objW = objH * Math.min(aspect, 1.1);
+          } else if (item.tipeVisual === 'naskah') {
+            objH = baseDim * 0.88;
+            objW = objH * aspect;
+          } else {
+            objW = baseDim;
+            objH = objW / aspect;
+          }
+
+          // Shadow objek 3D
+          ctx.shadowColor = 'rgba(0, 0, 0, 0.75)';
+          ctx.shadowBlur = 45 * dpr;
+          ctx.shadowOffsetY = 24 * dpr;
+          ctx.shadowOffsetX = -rotY * 40 * dpr;
+
+          // Frame / Dudukan 3D
+          const borderPad = (item.tipeVisual === 'artefak' ? 14 : 18) * dpr;
+          ctx.fillStyle = item.frameColor || '#4d3a2b';
+          ctx.fillRect(-objW / 2 - borderPad, -objH / 2 - borderPad, objW + borderPad * 2, objH + borderPad * 2);
+
+          // Highlight tepi emas/perunggu
+          ctx.strokeStyle = 'rgba(255, 230, 180, 0.35)';
+          ctx.lineWidth = 2 * dpr;
+          ctx.strokeRect(-objW / 2 - borderPad, -objH / 2 - borderPad, objW + borderPad * 2, objH + borderPad * 2);
+
+          ctx.shadowColor = 'transparent';
+
+          if (img.complete && img.naturalWidth > 0) {
+            // Draw image utama
+            ctx.drawImage(img, -objW / 2, -objH / 2, objW, objH);
+          } else {
+            // Placeholder frame saat memuat
+            ctx.fillStyle = '#1c1a1e';
+            ctx.fillRect(-objW / 2, -objH / 2, objW, objH);
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+            ctx.font = `${13 * dpr}px sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.fillText('Memuat Visual Objek 3D...', 0, 0);
+          }
+
+          // Pencahayaan lampu sorot (Spotlight gloss)
+          const sheenGrad = ctx.createLinearGradient(-objW / 2, -objH / 2, objW / 2, objH / 2);
+          sheenGrad.addColorStop(0, `rgba(255, 255, 255, ${Math.max(0, 0.18 + rotY * 0.15)})`);
+          sheenGrad.addColorStop(0.5, 'rgba(255, 255, 255, 0)');
+          sheenGrad.addColorStop(1, 'rgba(0, 0, 0, 0.35)');
+          ctx.fillStyle = sheenGrad;
+          ctx.fillRect(-objW / 2, -objH / 2, objW, objH);
+
+          ctx.restore();
+
+          modalAnimId = requestAnimationFrame(render);
+        }
+
+        modalAnimId = requestAnimationFrame(render);
+
+        // Event interaksi drag / putar objek
+        canvas.onpointerdown = (e) => {
+          isDragging = true;
+          lastMouseX = e.clientX;
+          lastMouseY = e.clientY;
+          canvas.setPointerCapture(e.pointerId);
+        };
+
+        canvas.onpointermove = (e) => {
+          if (!isDragging) return;
+          const deltaX = e.clientX - lastMouseX;
+          const deltaY = e.clientY - lastMouseY;
+          lastMouseX = e.clientX;
+          lastMouseY = e.clientY;
+
+          targetRotY = Math.max(-0.65, Math.min(0.65, targetRotY + deltaX * 0.005));
+          targetRotX = Math.max(-0.4, Math.min(0.4, targetRotX + deltaY * 0.004));
+        };
+
+        canvas.onpointerup = canvas.onpointercancel = (e) => {
+          isDragging = false;
+        };
+
+        canvas.onwheel = (e) => {
+          e.preventDefault();
+          targetZoom = Math.max(0.75, Math.min(1.5, targetZoom - e.deltaY * 0.0012));
+        };
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Lewati ke konten</a>
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="Nusantara Gallery Art, beranda"><h1>Nusantara <span>Gallery Art</span></h1></a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="global-nav" aria-label="Buka navigasi"><span></span><span></span><span></span></button>
+      <nav class="global-nav" id="global-nav" aria-label="Navigasi utama">
+        <a href="index.html">Beranda</a><a href="catalog.html">Koleksi</a><a href="index.html#pameran">Buku Sketsa &amp; 3D</a><a href="about.html">Tentang Kami</a>
+        <button class="theme-toggle-btn" type="button" data-theme-toggle aria-label="Ganti Tema">
+          <span class="icon">🌙</span> Dark Mode
+        </button>
+        <a href="login.html" class="btn-login">Portal Kurator</a>
+      </nav>
+    </header>
+    <main id="main-content" class="page-width">
+      <header class="page-title">
+        <p class="eyebrow" data-detail-eyebrow>Rekod koleksi</p>
+        <h2 data-detail-judul>Memuat koleksi…</h2>
+        <p>Rekod metadata dan konteks kuratorial untuk mendukung penelusuran, sitasi, dan riset koleksi.</p>
+      </header>
+      <section class="detail-layout" aria-label="Detail karya dan metadata">
+        <figure class="detail-artwork metadata-artwork">
+          <img data-detail-img src="" alt="" />
+          <figcaption data-detail-caption></figcaption>
+        </figure>
+        <section class="metadata-panel" aria-labelledby="metadata-title">
+          <p class="badge" data-detail-kategori></p>
+          <h2 id="metadata-title">Metadata objek</h2>
+          <table class="metadata-table">
+            <tbody>
+              <tr><th scope="row">Nomor inventaris</th><td data-td-inventaris></td></tr>
+              <tr><th scope="row">Judul</th><td data-td-judul></td></tr>
+              <tr><th scope="row">Pencipta</th><td data-td-pencipta></td></tr>
+              <tr><th scope="row">Tahun penciptaan</th><td data-td-tahun></td></tr>
+              <tr><th scope="row">Medium / bahan</th><td data-td-medium></td></tr>
+              <tr><th scope="row">Dimensi</th><td data-td-dimensi></td></tr>
+              <tr><th scope="row">Provenans</th><td data-td-provenans></td></tr>
+            </tbody>
+          </table>
+          <section class="curatorial-notes" aria-labelledby="notes-title">
+            <h3 id="notes-title">Catatan kuratorial</h3>
+            <p data-detail-catatan></p>
+          </section>
+          <nav class="metadata-actions" aria-label="Tindakan metadata">
+            <a class="button button-secondary" href="catalog.html">← Kembali ke Katalog</a>
+            <button class="button button-secondary btn-secondary" type="button" data-print-metadata>Unduh Metadata PDF</button>
+            <button class="button button-primary btn-primary" type="button" data-btn-exhibit>Buka Virtual Exhibition 3D <span aria-hidden="true">↗</span></button>
+          </nav>
+        </section>
+      </section>
+    </main>
+
+    <!-- Modal Interaktif Ruang Pameran Virtual 3D Spesifik Koleksi -->
+    <div class="modal-overlay" id="modal-3d-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-artwork-title">
+      <div class="modal-container">
+        <header class="modal-header">
+          <div class="modal-title-group">
+            <h3 id="modal-artwork-title">Virtual 3D Room</h3>
+            <p id="modal-room-tag">Ruang Pamer Digital</p>
+          </div>
+          <button class="modal-close-btn" type="button" aria-label="Tutup pameran 3D" onclick="closeVirtualModal()">×</button>
+        </header>
+        <div class="modal-body">
+          <canvas class="modal-canvas" id="modal-canvas-3d"></canvas>
+          <div class="modal-controls-hint">
+            <span>🖱️ Geser untuk memutar sudut 3D</span>
+            <span>🔍 Scroll untuk Zoom</span>
+          </div>
+        </div>
+        <footer class="modal-footer">
+          <span id="modal-info-footer">Simulasi pencahayaan studio kuratorial galeri.</span>
+          <button class="button button-secondary" type="button" onclick="closeVirtualModal()" style="min-height:36px; padding:0 14px; font-size:0.8rem;">Tutup</button>
+        </footer>
+      </div>
+    </div>
+
+    <footer class="site-footer page-width"><hr /><p>© 2026 Mohammad Yanuar Rizky (NIM 250911718423) — Program Studi Sarjana Terapan Perpustakaan Digital, Universitas Negeri Malang</p><a href="#main-content" class="back-to-top">Kembali ke atas ↑</a></footer>
+  </body>
+</html>

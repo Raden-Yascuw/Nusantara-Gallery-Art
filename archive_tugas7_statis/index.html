@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Jelajahi koleksi seni dan warisan budaya Nusantara melalui arsip digital, metadata, dan pameran virtual." />
+    <meta http-equiv="refresh" content="0; url=index.php" />
+    <script>window.location.replace("index.php");</script>
+    <title>Nusantara Gallery Art | Warisan dalam Jangkauan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script src="assets/js/main.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Lewati ke konten</a>
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="Nusantara Gallery Art, beranda">
+        <h1>Nusantara <span>Gallery Art</span></h1>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="global-nav" aria-label="Buka navigasi">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="global-nav" id="global-nav" aria-label="Navigasi utama">
+        <a href="index.html" aria-current="page">Beranda</a>
+        <a href="catalog.html">Koleksi</a>
+        <a href="#pameran">Buku Sketsa &amp; 3D</a>
+        <a href="about.html">Tentang Kami</a>
+        <button class="theme-toggle-btn" type="button" data-theme-toggle aria-label="Ganti Tema">
+          <span class="icon">🌙</span> Dark Mode
+        </button>
+        <a href="login.html" class="btn-login">Portal Kurator</a>
+      </nav>
+    </header>
+
+    <main id="main-content">
+      <section class="hero page-width" aria-labelledby="hero-title">
+        <p class="badge">Digital Cultural Heritage</p>
+        <h2 id="hero-title">Preservasi Digital<br />Mahakarya Warisan Nusantara</h2>
+        <p class="hero-copy">Menjaga cerita di balik setiap karya. Jelajahi koleksi budaya melalui dokumentasi visual dan metadata yang terbuka untuk riset maupun publik.</p>
+        <nav class="hero-actions" aria-label="Jelajahi galeri">
+          <a class="button button-primary" href="catalog.html">Jelajahi koleksi <span aria-hidden="true">↗</span></a>
+          <a class="text-link" href="formulir.html">Entri Formulir GLAM <span aria-hidden="true">→</span></a>
+          <a class="text-link" href="about.html">Mengenal galeri <span aria-hidden="true">→</span></a>
+        </nav>
+      </section>
+
+      <section class="sketchbook-section page-width" id="pameran" aria-labelledby="exhibition-title" data-sketchbook-desk>
+        <header class="sketchbook-header">
+          <p class="eyebrow">Jurnal Lapangan Kurator &amp; Pameran Digital</p>
+          <h2 id="exhibition-title">Eksplorasi Mahakarya Warisan Nusantara</h2>
+          <p>Pilih mode tampilan di bawah: amati detail goresan fisik lewat <strong>Buku Sketsa &amp; Kaca Pembesar</strong>, atau nikmati perspektif ruang di <strong>Pameran Virtual 3D</strong>.</p>
+        </header>
+
+        <!-- Pengalih Mode Tampilan (Revisi 3 & 4) -->
+        <div class="viewer-mode-selector" role="tablist" aria-label="Pilihan mode tampilan pameran">
+          <button type="button" class="viewer-mode-btn is-active" data-view-mode="sketchbook" role="tab" aria-selected="true">
+            📖 Jurnal Buku Sketsa &amp; Lup
+          </button>
+          <button type="button" class="viewer-mode-btn" data-view-mode="virtual3d" role="tab" aria-selected="false">
+            🏛️ Ruang Pameran Virtual 3D
+          </button>
+        </div>
+
+        <!-- Mode 1: Buku Sketsa Terbuka 2 Halaman (Revisi 4: Animasi Balik Halaman) -->
+        <div class="sketchbook-spread-container" data-view-pane="sketchbook">
+          <article class="sketchbook-book" data-sketchbook-book aria-label="Buku sketsa pameran terbuka dua halaman">
+            
+            <!-- Halaman Kiri: Kanvas Karya & Kaca Pembesar -->
+            <div class="sketchbook-page page-left" data-page-left>
+              <div class="plate-canvas-frame" data-plate-canvas tabindex="0" role="region" aria-label="Kanvas karya seni, arahkan kursor untuk memperbesar dengan kaca pembesar">
+                <img class="plate-image" data-plate-image src="assets/images/diponegoro.jpg" alt="Lukisan Penangkapan Pangeran Diponegoro karya Raden Saleh" />
+                <div class="magnifier-lens" data-magnifier aria-hidden="true"></div>
+              </div>
+              <div class="plate-tag-bottom" data-plate-tag>PELAT 01 — LUKISAN KLASIK · 1857</div>
+            </div>
+
+            <!-- Halaman Kanan: Catatan Kurator & Spesifikasi -->
+            <div class="sketchbook-page page-right" data-page-right>
+              <div class="curator-journal-entry">
+                <span class="ephemera-tape">ARSIP RESMI</span>
+                <p class="plate-number-badge" data-plate-badge>PELAT 01</p>
+                <h3 class="plate-artwork-title" data-plate-title>Penangkapan Pangeran Diponegoro</h3>
+                <p class="plate-meta-line" data-plate-meta>Raden Saleh (c. 1811–1880) · 1857 · Jawa Tengah / Batavia</p>
+                <p class="curator-notes-paragraph" data-plate-notes>
+                  Sebuah pembacaan kembali atas peristiwa penangkapan Pangeran Diponegoro pada 1830 di Magelang. Raden Saleh menghadirkan peristiwa sejarah melalui perspektif yang menempatkan martabat sang pangeran di pusat narasi, berbeda kontras dengan lukisan versi Nicolaas Pieneman.
+                </p>
+
+                <div class="plate-spec-list">
+                  <div class="plate-spec-item">
+                    <strong>Medium</strong>
+                    <span data-spec-medium>Cat minyak pada kanvas</span>
+                  </div>
+                  <div class="plate-spec-item">
+                    <strong>Dimensi</strong>
+                    <span data-spec-dimension>112 × 179 cm</span>
+                  </div>
+                  <div class="plate-spec-item">
+                    <strong>Provenans</strong>
+                    <span data-spec-provenance>Koleksi Istana Kepresidenan RI</span>
+                  </div>
+                  <div class="plate-spec-item">
+                    <strong>Klasifikasi</strong>
+                    <span data-spec-category>Lukisan Klasik</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="page-right-footer">
+                <span class="archival-seal">TERVERIFIKASI SISTEM GLAM</span>
+                <a class="text-link btn-detail" data-plate-detail-link href="detail.html?id=diponegoro-lukisan">
+                  Rekod Metadata Lengkap <span aria-hidden="true">→</span>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Bilah Navigasi Bawah Buku Sketsa (Archival Controls Bar) -->
+          <div class="sketchbook-controls-bar" aria-label="Kontrol navigasi pelat buku sketsa">
+            <div class="controls-left">
+              <button class="btn-plate-nav" data-plate-prev type="button" aria-label="Pelat sebelumnya (balik halaman ke belakang)">
+                <span aria-hidden="true">←</span> Balik Sebelumnya
+              </button>
+              <button class="btn-plate-nav" data-plate-next type="button" aria-label="Pelat selanjutnya (balik halaman ke depan)">
+                Balik Selanjutnya <span aria-hidden="true">→</span>
+              </button>
+            </div>
+
+            <div class="controls-center">
+              <div class="plate-tracker-label" data-plate-tracker>PELAT 01 / 04</div>
+              <div class="plate-tracker-title" data-tracker-title>Penangkapan Pangeran Diponegoro</div>
+            </div>
+
+            <div class="controls-right">
+              <button class="btn-index-toggle" data-index-toggle type="button" aria-expanded="false" aria-controls="plates-modal">
+                <span aria-hidden="true">☰</span> Indeks Pelat
+              </button>
+              <a class="button button-primary" href="login.html" style="font-size:0.85rem; padding: 8px 14px;">
+                Portal Kurator <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mode 2: Ruang Pameran Virtual 3D (Revisi 3: Lukisan Tampil Sempurna) -->
+        <figure class="viewer-frame" data-view-pane="virtual3d" hidden>
+          <canvas id="artwork-viewer" aria-label="Tampilan interaktif 3D karya Penangkapan Pangeran Diponegoro"></canvas>
+          <img class="viewer-fallback" src="assets/images/diponegoro.jpg" alt="Lukisan Penangkapan Pangeran Diponegoro karya Raden Saleh" />
+          <figcaption><span>RUANG 01 — LUKISAN KLASIK SEJARAH</span><span>JAWA, 1857 · GESER MOUSE UNTUK EFEK 3D PERSPEKTIF</span></figcaption>
+        </figure>
+
+        <!-- Modal Indeks Pelat Koleksi -->
+        <div class="plates-index-modal" id="plates-modal" data-plates-modal role="dialog" aria-modal="true" aria-labelledby="index-modal-title">
+          <div class="plates-index-sheet">
+            <header>
+              <div>
+                <p class="eyebrow">Katalog Terstruktur GLAM</p>
+                <h3 id="index-modal-title">Indeks Pelat Warisan Nusantara</h3>
+              </div>
+              <button class="btn-close-sheet" data-close-index type="button" aria-label="Tutup indeks">×</button>
+            </header>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 16px;">
+              Pilih salah satu pelat di bawah untuk langsung membuka lembaran buku sketsa:
+            </p>
+            <ul class="plates-table-list" data-plates-list></ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="featured page-width" aria-labelledby="featured-title">
+        <header class="section-heading section-heading-row">
+          <section>
+            <p class="eyebrow">Sorotan koleksi</p>
+            <h2 id="featured-title">Cerita yang layak dijaga.</h2>
+          </section>
+          <a class="text-link" href="catalog.html">Semua koleksi <span aria-hidden="true">→</span></a>
+        </header>
+        <article class="featured-artwork" id="card-artwork">
+          <figure class="featured-image">
+            <img src="assets/images/diponegoro.jpg" alt="Raden Saleh menggambarkan penangkapan Pangeran Diponegoro dalam lukisan tahun 1857" />
+            <figcaption>KOLEKSI PILIHAN <span>NG-1857-001</span></figcaption>
+          </figure>
+          <section class="artwork-info">
+            <p class="badge">Lukisan Klasik</p>
+            <h3>Penangkapan Pangeran Diponegoro</h3>
+            <p class="meta-artist">Raden Saleh · 1857</p>
+            <p class="description">Sebuah pembacaan kembali atas penangkapan Pangeran Diponegoro pada 1830. Raden Saleh menghadirkan peristiwa sejarah melalui sudut pandang yang menempatkan martabat sang pangeran di pusat narasi.</p>
+            <a class="text-link btn-detail" href="detail.html?id=diponegoro-lukisan">Jelajahi metadata &amp; visual 3D <span aria-hidden="true">→</span></a>
+          </section>
+        </article>
+      </section>
+
+      <section class="manifesto page-width" aria-labelledby="manifesto-title">
+        <p class="eyebrow">Akses. Konteks. Keberlanjutan.</p>
+        <h2 id="manifesto-title">Warisan budaya bukan sekadar untuk dikenang. Ia perlu terus ditemukan.</h2>
+        <a class="text-link" href="about.html">Tentang Nusantara Gallery Art <span aria-hidden="true">→</span></a>
+      </section>
+    </main>
+
+    <footer class="site-footer page-width">
+      <hr />
+      <p>© 2026 Mohammad Yanuar Rizky (NIM 250911718423) — Program Studi Sarjana Terapan Perpustakaan Digital, Universitas Negeri Malang</p>
+      <a href="#main-content" class="back-to-top">Kembali ke atas ↑</a>
+    </footer>
+  </body>
+</html>
+
