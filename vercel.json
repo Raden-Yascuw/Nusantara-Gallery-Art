@@ -1,12 +1,8 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
   "functions": {
-    "api/**/*.php": {
-      "runtime": "vercel-php@0.7.3"
-    },
-    "*.php": {
+    "api/*.php": {
       "runtime": "vercel-php@0.7.3",
-      "includeFiles": "data/**,layout/**,assets/**"
+      "includeFiles": "**"
     }
   },
   "routes": [
@@ -15,20 +11,8 @@
       "dest": "/assets/$1"
     },
     {
-      "src": "/data/(.*)",
-      "dest": "/data/$1"
-    },
-    {
-      "src": "/",
-      "dest": "/index.php"
-    },
-    {
-      "src": "/(about|catalog|detail|formulir|layanan|login|register)",
-      "dest": "/$1.php"
-    },
-    {
-      "src": "/(.*).php",
-      "dest": "/$1.php"
+      "src": "/(.*)",
+      "dest": "/api/index.php"
     }
   ]
 }
