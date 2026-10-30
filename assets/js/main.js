@@ -1,14 +1,12 @@
-// Theme Switcher
+// Theme Switcher (Dual-Mode Parity)
 (() => {
   const applyTheme = (theme) => {
-    if (theme === 'dark') {
-      document.documentElement.setAttribute('data-theme', 'dark');
-    } else {
-      document.documentElement.removeAttribute('data-theme');
-    }
+    const mode = theme === 'dark' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', mode);
+    document.documentElement.setAttribute('data-mode', mode);
   };
 
-  const savedTheme = localStorage.getItem('nga_theme');
+  const savedTheme = localStorage.getItem('nga_theme') || localStorage.getItem('nga_theme_mode');
   if (savedTheme === 'dark') {
     applyTheme('dark');
   } else {
@@ -16,12 +14,12 @@
   }
 
   const updateToggleButtons = () => {
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const isDark = document.documentElement.getAttribute('data-mode') === 'dark' || document.documentElement.getAttribute('data-theme') === 'dark';
     document.querySelectorAll('[data-theme-toggle]').forEach((btn) => {
       btn.innerHTML = isDark
-        ? 'Mode Terang'
-        : 'Mode Gelap';
-      btn.setAttribute('aria-label', isDark ? 'Beralih ke Tema Terang' : 'Beralih ke Tema Gelap');
+        ? '<span class="toggle-icon">☀</span> Mode Terang'
+        : '<span class="toggle-icon">☾</span> Mode Gelap';
+      btn.setAttribute('aria-label', isDark ? 'Beralih ke Tema Siang (Guguran Daun)' : 'Beralih ke Tema Malam (Hujan Galeri)');
     });
   };
 
@@ -29,16 +27,29 @@
     updateToggleButtons();
 
     document.querySelectorAll('[data-theme-toggle]').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
+      btn.addEventListener('click', (event) => {
+        const currentTheme = document.documentElement.getAttribute('data-mode') || document.documentElement.getAttribute('data-theme');
         const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        applyTheme(nextTheme);
-        localStorage.setItem('nga_theme', nextTheme);
-        updateToggleButtons();
+        const rect = btn.getBoundingClientRect();
+        const wx = event.clientX || (rect.left + rect.width / 2);
+        const wy = event.clientY || (rect.top + rect.height / 2);
+        document.documentElement.style.setProperty('--wx', `${wx}px`);
+        document.documentElement.style.setProperty('--wy', `${wy}px`);
 
-        // Trigger repaint untuk kanvas pameran jika ada
-        if (typeof window.requestViewerPaint === 'function') {
-          window.requestViewerPaint();
+        const commitTheme = () => {
+          applyTheme(nextTheme);
+          localStorage.setItem('nga_theme', nextTheme);
+          localStorage.setItem('nga_theme_mode', nextTheme);
+          updateToggleButtons();
+          if (typeof window.requestViewerPaint === 'function') {
+            window.requestViewerPaint();
+          }
+        };
+
+        if (document.startViewTransition && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          document.startViewTransition(commitTheme);
+        } else {
+          commitTheme();
         }
       });
     });
@@ -422,7 +433,7 @@ if (viewer) {
   const PLATES_DATA = [
     {
       id: 'diponegoro-lukisan',
-      number: 'PELAT 01',
+      number: 'Pelat 01',
       title: 'Penangkapan Pangeran Diponegoro',
       creator: 'Raden Saleh (c. 1811–1880)',
       year: '1857',
@@ -437,7 +448,7 @@ if (viewer) {
     },
     {
       id: 'babad-diponegoro',
-      number: 'PELAT 02',
+      number: 'Pelat 02',
       title: 'Babad Diponegoro',
       creator: 'Pangeran Diponegoro',
       year: 'Abad ke-19 (1831–1832)',
@@ -452,7 +463,7 @@ if (viewer) {
     },
     {
       id: 'arca-prajnaparamita',
-      number: 'PELAT 03',
+      number: 'Pelat 03',
       title: 'Arca Prajnaparamita',
       creator: 'Pemahat Tak Dikenal (Era Singhasari)',
       year: 'Abad ke-13 Masehi',
@@ -467,7 +478,7 @@ if (viewer) {
     },
     {
       id: 'perburuan-rusa',
-      number: 'PELAT 04',
+      number: 'Pelat 04',
       title: 'Perburuan Rusa (Deer Hunt)',
       creator: 'Raden Saleh (c. 1811–1880)',
       year: '1846',
@@ -523,20 +534,20 @@ if (viewer) {
 
     if (plateBadge) plateBadge.textContent = plate.number;
     if (plateTitle) plateTitle.textContent = plate.title;
-    if (plateMeta) plateMeta.textContent = `${plate.creator} · ${plate.year} · ${plate.origin}`;
+    if (plateMeta) plateMeta.textContent = `${plate.creator}, ${plate.year} — ${plate.origin}`;
     if (plateNotes) plateNotes.textContent = plate.notes;
     if (specMedium) specMedium.textContent = plate.medium;
     if (specDimension) specDimension.textContent = plate.dimension;
     if (specProvenance) specProvenance.textContent = plate.provenance;
     if (specCategory) specCategory.textContent = plate.category;
-    if (plateTag) plateTag.textContent = `${plate.number} — ${plate.category} · ${plate.year}`;
+    if (plateTag) plateTag.textContent = `${plate.number} — ${plate.category}, ${plate.year}`;
 
     if (plateDetailLink) {
       plateDetailLink.href = `detail.php?id=${plate.id}`;
     }
 
     if (plateTracker) {
-      plateTracker.textContent = `PELAT ${String(currentPlateIndex + 1).padStart(2, '0')} / ${String(PLATES_DATA.length).padStart(2, '0')}`;
+      plateTracker.textContent = `Pelat ${String(currentPlateIndex + 1).padStart(2, '0')} / ${String(PLATES_DATA.length).padStart(2, '0')}`;
     }
     if (trackerTitle) {
       trackerTitle.textContent = plate.title;
@@ -554,6 +565,101 @@ if (viewer) {
     }
   };
 
+  // Synthesizer Suara Fisik Membalik Kertas Buku Sketsa (Web Audio API)
+  let audioCtx = null;
+  const playPageTurnSound = (direction = 'forward') => {
+    try {
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextClass) return;
+      if (!audioCtx) audioCtx = new AudioContextClass();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+
+      const now = audioCtx.currentTime;
+      const duration = 0.62;
+      const sampleRate = audioCtx.sampleRate;
+      const frameCount = Math.floor(sampleRate * duration);
+      const noiseBuffer = audioCtx.createBuffer(1, frameCount, sampleRate);
+      const output = noiseBuffer.getChannelData(0);
+
+      // Pink-brownish noise supaya tekstur serat kertas terasa hangat (bukan desis tajam)
+      let b0 = 0, b1 = 0, b2 = 0;
+      for (let i = 0; i < frameCount; i++) {
+        const white = Math.random() * 2 - 1;
+        b0 = 0.997 * b0 + white * 0.029;
+        b1 = 0.985 * b1 + white * 0.032;
+        b2 = 0.950 * b2 + white * 0.048;
+        output[i] = (b0 + b1 + b2 + white * 0.08) * 1.6;
+      }
+
+      const noise = audioCtx.createBufferSource();
+      noise.buffer = noiseBuffer;
+
+      // Filter gesekan lembaran kertas (bandpass menyapu sesuai lengkungan halaman)
+      const bandpass = audioCtx.createBiquadFilter();
+      bandpass.type = 'bandpass';
+      bandpass.Q.setValueAtTime(1.35, now);
+      const startFreq = direction === 'forward' ? 680 : 580;
+      const peakFreq = direction === 'forward' ? 1650 : 1420;
+      const endFreq = direction === 'forward' ? 520 : 620;
+      bandpass.frequency.setValueAtTime(startFreq, now);
+      bandpass.frequency.exponentialRampToValueAtTime(peakFreq, now + 0.24);
+      bandpass.frequency.exponentialRampToValueAtTime(endFreq, now + 0.56);
+
+      // Pelembut frekuensi tinggi agar natural seperti kertas katun tebal
+      const lowpass = audioCtx.createBiquadFilter();
+      lowpass.type = 'lowpass';
+      lowpass.frequency.setValueAtTime(2800, now);
+
+      // Amplop volume gesekan kertas (awal angkat -> puncak ayunan -> mendarat)
+      const rustleGain = audioCtx.createGain();
+      rustleGain.gain.setValueAtTime(0.0001, now);
+      rustleGain.gain.linearRampToValueAtTime(0.18, now + 0.045);
+      rustleGain.gain.exponentialRampToValueAtTime(0.32, now + 0.22);
+      rustleGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.58);
+
+      // Efek spasial kiri-kanan mengikuti arah balik lembaran buku
+      const panner = audioCtx.createStereoPanner ? audioCtx.createStereoPanner() : null;
+      if (panner) {
+        const panStart = direction === 'forward' ? 0.35 : -0.35;
+        const panEnd = direction === 'forward' ? -0.35 : 0.35;
+        panner.pan.setValueAtTime(panStart, now);
+        panner.pan.linearRampToValueAtTime(panEnd, now + 0.52);
+      }
+
+      noise.connect(bandpass);
+      bandpass.connect(lowpass);
+      if (panner) {
+        lowpass.connect(panner);
+        panner.connect(rustleGain);
+      } else {
+        lowpass.connect(rustleGain);
+      }
+      rustleGain.connect(audioCtx.destination);
+
+      noise.start(now);
+      noise.stop(now + duration);
+
+      // Bunyi lembut halaman mendarat di atas tumpukan kertas (soft paper settle thump)
+      const settleTime = now + 0.46;
+      const osc = audioCtx.createOscillator();
+      const settleGain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(115, settleTime);
+      osc.frequency.exponentialRampToValueAtTime(46, settleTime + 0.11);
+
+      settleGain.gain.setValueAtTime(0.0001, settleTime);
+      settleGain.gain.linearRampToValueAtTime(0.09, settleTime + 0.012);
+      settleGain.gain.exponentialRampToValueAtTime(0.0001, settleTime + 0.12);
+
+      osc.connect(settleGain);
+      settleGain.connect(audioCtx.destination);
+      osc.start(settleTime);
+      osc.stop(settleTime + 0.13);
+    } catch (e) {
+      // Abaikan jika browser memblokir audio otomatis
+    }
+  };
+
   // Render Pelat Buku Sketsa
   const renderPlate = (index, direction = 'instant') => {
     if (isPageFlipping) return;
@@ -567,6 +673,7 @@ if (viewer) {
     }
 
     isPageFlipping = true;
+    playPageTurnSound(direction);
 
     // Tambahkan lembaran kertas membalik 3D (Leaf flip)
     const leaf = document.createElement('div');
@@ -621,8 +728,8 @@ if (viewer) {
       const lensX = clientX - canvasRect.left;
       const lensY = clientY - canvasRect.top;
 
-      magnifier.style.left = `${lensX}px`;
-      magnifier.style.top = `${lensY}px`;
+      magnifier.style.setProperty('--lx', `${lensX}px`);
+      magnifier.style.setProperty('--ly', `${lensY}px`);
 
       const x = clientX - rect.left;
       const y = clientY - rect.top;
@@ -868,5 +975,37 @@ if (viewer) {
       statusBanner.hidden = true;
       statusBanner.textContent = '';
     }
+  });
+})();
+
+// Hallmark Scroll Choreography & Entrance Animations
+(() => {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const revealTargets = document.querySelectorAll(
+      '.sketchbook-section, .featured, .manifesto, .catalog-card, .about-intro, .about-values article, .login-card, .form-wrapper-card, .archival-slip'
+    );
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-revealed');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.08,
+        rootMargin: '0px 0px -40px 0px'
+      }
+    );
+
+    revealTargets.forEach((el, index) => {
+      el.classList.add('reveal-on-scroll');
+      el.style.setProperty('--reveal-delay', `${(index % 4) * 0.08}s`);
+      observer.observe(el);
+    });
   });
 })();

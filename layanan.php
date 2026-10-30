@@ -2,7 +2,7 @@
 // Layanan Reservasi Tiket & Tur Pameran Seni Nusantara (GLAM)
 
 // Konfigurasi Halaman & Metadata
-$page_title       = "Layanan Tiket & Reservasi Pameran | Nusantara Gallery Art";
+$page_title       = "Layanan Tiket & Reservasi Pameran — Nusantara Gallery Art";
 $page_description = "Simulasi pemesanan karcis kunjungan, tur kuratorial, dan pameran seni budaya digital GLAM.";
 $current_page     = "layanan";
 
@@ -205,54 +205,40 @@ $riwayat_reservasi = [
 ?>
 
     <main id="main-content">
-      <section class="hero page-width no-print" aria-labelledby="layanan-title" style="padding-bottom: 2rem;">
-        <p class="badge">Akses &amp; Layanan Pameran</p>
+      <section class="hero page-width no-print" aria-labelledby="layanan-title">
         <h2 id="layanan-title">Reservasi Karcis Kunjungan &amp;<br />Tur Kuratorial Seni GLAM</h2>
         <p class="hero-copy">Hitung estimasi tarif tiket pameran, penyesuaian akhir pekan, sesi pemandu kurator, dan diskon rombongan secara dinamis di sisi server.</p>
         <nav class="hero-actions" aria-label="Aksi Cepat">
           <?php if ($hasil_kalkulasi !== null): ?>
-            <a class="button button-primary btn-vermilion" href="#hasil-kalkulasi">Lihat Karcis Terbit</a>
+            <a class="button" href="#hasil-kalkulasi">Lihat Karcis Terbit</a>
           <?php endif; ?>
-          <a class="button button-primary" href="#form-kalkulasi">Mulai Reservasi</a>
+          <a class="button" href="#form-kalkulasi">Mulai Reservasi</a>
           <a class="text-link" href="#riwayat-reservasi">Lihat Riwayat Reservasi</a>
         </nav>
       </section>
 
       <?php if ($hasil_kalkulasi !== null): ?>
-      <!-- Akses Cepat & Notifikasi Karcis Diterbitkan -->
-      <section class="page-width no-print" style="max-width: 680px; margin: 0 auto 2.5rem;">
-        <div style="background: rgba(46, 125, 50, 0.08); border: 1px solid var(--valid-border); border-radius: 8px; padding: 16px 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px;">
-          <div>
-            <div style="color: var(--valid-border); font-weight: 600; font-size: 0.95rem;">
-              Karcis Masuk Berhasil Diterbitkan
-            </div>
-            <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px;">
-              Register: <strong style="font-family: var(--font-mono); color: var(--text-primary);">#<?= $hasil_kalkulasi['kode_tiket'] ?></strong> &bull; Total: <strong>Rp <?= number_format($hasil_kalkulasi['total_pembayaran'], 0, ',', '.') ?></strong>
-            </div>
-          </div>
-          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-            <a href="#hasil-kalkulasi" class="button button-primary btn-vermilion" style="padding: 8px 16px; font-size: 0.85rem;">
-              Lihat Karcis
-            </a>
-            <button type="button" onclick="unduhBerkasKarcis()" class="button button-secondary" style="padding: 8px 16px; font-size: 0.85rem; background: var(--bg-card); border-color: var(--border-color);">
-              Unduh Dokumen (.html)
-            </button>
-          </div>
+      <section class="page-width no-print">
+        <div class="form-status-banner is-success">
+          <strong>Karcis Masuk Berhasil Diterbitkan</strong> — Register: #<?= $hasil_kalkulasi['kode_tiket'] ?>, Total: Rp <?= number_format($hasil_kalkulasi['total_pembayaran'], 0, ',', '.') ?>.
+          <a href="#hasil-kalkulasi" class="text-link">Lihat Karcis</a>
         </div>
       </section>
       <?php endif; ?>
 
-      <section class="page-width no-print" id="form-kalkulasi" style="max-width: 760px; margin: 0 auto 3.5rem; display: flex; flex-direction: column; align-items: center;">
-        <article class="login-card" style="width: 100%; max-width: 680px; margin: 0 auto; box-sizing: border-box;">
-          <div class="auth-header-badge" style="justify-content: center; margin-bottom: 0.8rem;">
-            <span class="auth-badge-tag">Layanan Galeri</span>
-          </div>
-
-          <h3 style="margin-bottom: 0.4rem; text-align: center;">Formulir Reservasi Tiket Pameran</h3>
-          <p class="auth-intro" style="text-align: center; margin-inline: auto; max-width: 520px;">Masukkan data pengunjung, tanggal kunjungan, dan opsi layanan kuratorial untuk memproses penerbitan karcis masuk resmi galeri.</p>
+      <section class="page-width no-print form-page-container" id="form-kalkulasi">
+        <article class="form-wrapper-card">
+          <header class="form-card-header">
+            <div class="archive-stamp">
+              <span class="stamp-code">GLAM-PASS</span>
+              <span class="stamp-label">Layanan Galeri</span>
+            </div>
+            <h3>Formulir Reservasi Tiket Pameran</h3>
+            <p class="form-intro">Masukkan data pengunjung, tanggal kunjungan, dan opsi layanan kuratorial untuk memproses penerbitan karcis masuk resmi galeri.</p>
+          </header>
 
           <?php if (!empty($pesan_error)): ?>
-            <div style="background: var(--invalid-bg); border: 1px solid var(--invalid-border); padding: 12px 16px; border-radius: 8px; margin-bottom: 1.2rem; color: var(--invalid-border); font-size: 0.9rem;">
+            <div class="form-status-banner is-error">
               <strong>Galat:</strong> <?= htmlspecialchars($pesan_error) ?>
             </div>
           <?php endif; ?>
@@ -270,7 +256,7 @@ $riwayat_reservasi = [
               />
             </div>
 
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem;">
+            <div class="form-row-grid">
               <div class="form-group">
                 <label for="kategori_pengunjung">Kategori Pengunjung &amp; Tarif Dasar</label>
                 <select id="kategori_pengunjung" name="kategori_pengunjung">
@@ -294,7 +280,7 @@ $riwayat_reservasi = [
               </div>
             </div>
 
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+            <div class="form-row-grid">
               <div class="form-group">
                 <label for="tanggal_kunjungan">Tanggal Kunjungan <span class="required-indicator">*</span></label>
                 <input
@@ -329,21 +315,20 @@ $riwayat_reservasi = [
                   </option>
                 <?php endforeach; ?>
               </select>
+              <small class="form-hint">Ketentuan: Akhir pekan (Sabtu &amp; Minggu) dikenakan penyesuaian operasional Rp 5.000 per tiket. Rombongan minimal 5 orang memperoleh diskon 15% dari subtotal tiket.</small>
             </div>
 
-            <button class="button button-primary btn-vermilion button-full" type="submit" style="margin-top: 0.5rem;">
-              Proses Reservasi &amp; Terbitkan Karcis Masuk
-            </button>
+            <div class="form-actions-bar">
+              <button class="button" type="submit">
+                Proses Reservasi &amp; Terbitkan Karcis Masuk
+              </button>
+            </div>
           </form>
-
-          <div style="margin-top: 1.2rem; padding: 12px 14px; background: var(--bg-surface); border-radius: 6px; font-size: 0.82rem; color: var(--text-muted); line-height: 1.5;">
-            <strong>Ketentuan Kunjungan:</strong> Akhir pekan (Sabtu &amp; Minggu) dikenakan penyesuaian operasional pameran Rp 5.000 per tiket. Pemesanan rombongan minimal 5 orang memperoleh penyesuaian tarif diskon 15% dari total subtotal tiket.
-          </div>
         </article>
       </section>
 
       <?php if ($hasil_kalkulasi !== null): ?>
-      <section class="page-width" id="hasil-kalkulasi" style="max-width: 820px; margin: 0 auto 4rem;">
+      <section class="page-width form-page-container" id="hasil-kalkulasi">
         <article class="archival-slip <?= ($hasil_kalkulasi['is_rombongan']) ? 'slip-cleared' : 'slip-has-fine' ?>">
           
           <!-- Perforasi Fisik Karcis Arsip -->
@@ -354,16 +339,16 @@ $riwayat_reservasi = [
           <!-- Tajuk Dokumen Reservasi Tiket -->
           <header class="slip-header">
             <div class="slip-brand">
-              <span class="slip-seal-badge" aria-hidden="true" style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; border: 1px solid var(--border-color); padding: 3px 7px; border-radius: 4px; letter-spacing: 0.08em;">NGA</span>
+              <span class="slip-seal-badge" aria-hidden="true">NGA</span>
               <div>
-                <span class="slip-institution">GLAM ARCHIVAL LEDGER &bull; NUSANTARA GALLERY ART</span>
+                <span class="slip-institution">Buku Besar Arsip GLAM — Nusantara Gallery Art</span>
                 <h3 class="slip-title">Karcis Kunjungan Resmi &amp; Pass Pameran</h3>
                 <p class="slip-subtitle">Dokumen Bukti Reservasi Masuk &amp; Akses Kuratorial Pameran Seni</p>
               </div>
             </div>
 
             <div class="slip-serial-block">
-              <span class="slip-serial-label">REGISTER RESERVASI</span>
+              <span class="slip-serial-label">Register Reservasi</span>
               <span class="slip-serial-number">#<?= $hasil_kalkulasi['kode_tiket'] ?></span>
               <span class="slip-serial-time">Diterbitkan: <?= date('d/m/Y, H:i') ?> WIB</span>
             </div>
@@ -373,17 +358,17 @@ $riwayat_reservasi = [
           <?php if ($hasil_kalkulasi['is_rombongan']): ?>
             <div class="archival-stamp stamp-rombongan" role="status" aria-label="Status: Rombongan Diskon 15%">
               <div class="stamp-border">
-                <span class="stamp-title">ROMBONGAN</span>
-                <span class="stamp-caption">DISKON 15% DITERAPKAN</span>
-                <span class="stamp-detail"><?= $hasil_kalkulasi['jumlah_tiket'] ?> TIKET &bull; RP <?= number_format($hasil_kalkulasi['total_pembayaran'], 0, ',', '.') ?></span>
+                <span class="stamp-title">Rombongan</span>
+                <span class="stamp-caption">Diskon 15% Diterapkan</span>
+                <span class="stamp-detail"><?= $hasil_kalkulasi['jumlah_tiket'] ?> Tiket — Rp <?= number_format($hasil_kalkulasi['total_pembayaran'], 0, ',', '.') ?></span>
               </div>
             </div>
           <?php else: ?>
             <div class="archival-stamp stamp-tepat" role="status" aria-label="Status: Terverifikasi Tiket Resmi">
               <div class="stamp-border">
-                <span class="stamp-title">TERVERIFIKASI</span>
-                <span class="stamp-caption">TIKET RESMI MASUK</span>
-                <span class="stamp-detail"><?= $hasil_kalkulasi['jumlah_tiket'] ?> TIKET &bull; RP <?= number_format($hasil_kalkulasi['total_pembayaran'], 0, ',', '.') ?></span>
+                <span class="stamp-title">Terverifikasi</span>
+                <span class="stamp-caption">Tiket Resmi Masuk</span>
+                <span class="stamp-detail"><?= $hasil_kalkulasi['jumlah_tiket'] ?> Tiket — Rp <?= number_format($hasil_kalkulasi['total_pembayaran'], 0, ',', '.') ?></span>
               </div>
             </div>
           <?php endif; ?>
@@ -420,10 +405,10 @@ $riwayat_reservasi = [
                 </tr>
                 <tr>
                   <th scope="row">Jadwal &amp; Hari Kunjungan</th>
-                  <td style="font-family: var(--font-mono);">
+                  <td>
                     <strong><?= $hasil_kalkulasi['nama_hari'] ?>, <?= $hasil_kalkulasi['tanggal_kunjungan'] ?></strong>
                     <?php if ($hasil_kalkulasi['is_weekend']): ?>
-                      <span class="slip-sub-note" style="color: var(--accent-vermilion); font-weight: 600;">(Akhir Pekan: Surcharge Rp 5.000 / tiket)</span>
+                      <span class="slip-sub-note">(Akhir Pekan: Surcharge Rp 5.000 / tiket)</span>
                     <?php else: ?>
                       <span class="slip-sub-note">(Hari Kerja Reguler)</span>
                     <?php endif; ?>
@@ -438,7 +423,7 @@ $riwayat_reservasi = [
                 </tr>
                 <tr>
                   <th scope="row">Subtotal Biaya Tiket</th>
-                  <td style="font-family: var(--font-mono);">
+                  <td>
                     Rp <?= number_format($hasil_kalkulasi['subtotal_tiket'], 0, ',', '.') ?>
                   </td>
                 </tr>
@@ -446,10 +431,10 @@ $riwayat_reservasi = [
                   <th scope="row">Keringanan Diskon Rombongan</th>
                   <td>
                     <?php if ($hasil_kalkulasi['is_rombongan']): ?>
-                      <strong style="color: var(--valid-border);">- Rp <?= number_format($hasil_kalkulasi['nominal_diskon'], 0, ',', '.') ?></strong>
+                      <strong>- Rp <?= number_format($hasil_kalkulasi['nominal_diskon'], 0, ',', '.') ?></strong>
                       <span class="slip-sub-note">(Apresiasi 15% untuk rombongan &ge; 5 orang)</span>
                     <?php else: ?>
-                      <span style="color: var(--text-muted);">&mdash; 0% (Berlaku jika pemesanan &ge; 5 tiket)</span>
+                      <span>— 0% (Berlaku jika pemesanan &ge; 5 tiket)</span>
                     <?php endif; ?>
                   </td>
                 </tr>
@@ -458,14 +443,14 @@ $riwayat_reservasi = [
                   <td>
                     <span><?= $hasil_kalkulasi['layanan_label'] ?></span>
                     <?php if ($hasil_kalkulasi['biaya_layanan_tambahan'] > 0): ?>
-                      <strong style="margin-left: 6px; font-family: var(--font-mono);">(+Rp <?= number_format($hasil_kalkulasi['biaya_layanan_tambahan'], 0, ',', '.') ?>)</strong>
+                      <strong>(+Rp <?= number_format($hasil_kalkulasi['biaya_layanan_tambahan'], 0, ',', '.') ?>)</strong>
                     <?php else: ?>
                       <span class="slip-sub-note">(Termasuk paket mandiri)</span>
                     <?php endif; ?>
                   </td>
                 </tr>
                 <tr class="slip-row-total">
-                  <th scope="row">TOTAL PEMBAYARAN KARCIS</th>
+                  <th scope="row">Total Pembayaran Karcis</th>
                   <td class="slip-total-amount amount-due">
                     Rp <?= number_format($hasil_kalkulasi['total_pembayaran'], 0, ',', '.') ?>
                   </td>
@@ -482,7 +467,7 @@ $riwayat_reservasi = [
               </div>
             </div>
           <?php else: ?>
-            <div class="slip-notice notice-fine" style="background: var(--bg-surface); border-color: var(--border-color);">
+            <div class="slip-notice notice-fine">
               <div>
                 <strong>Catatan Kunjungan:</strong> Tiket resmi diterbitkan untuk <strong><?= $hasil_kalkulasi['jumlah_tiket'] ?> pengunjung</strong> pada <strong><?= $hasil_kalkulasi['nama_hari'] ?>, <?= $hasil_kalkulasi['tanggal_kunjungan'] ?></strong>. Mohon hadir 15 menit sebelum sesi pameran dimulai demi ketertiban kurasi galeri.
               </div>
@@ -501,15 +486,15 @@ $riwayat_reservasi = [
             <div class="slip-signature-area">
               <span class="slip-sign-label">Petugas Kurator Galeri:</span>
               <div class="slip-sign-seal">
-                <span class="seal-text">TERVERIFIKASI &bull; KURATOR GLAM</span>
+                <span class="seal-text">Terverifikasi — Kurator GLAM</span>
               </div>
               <span class="slip-sign-officer">Mohammad Yanuar Rizky (NIM 250911718423)</span>
             </div>
           </footer>
 
           <!-- Tombol Aksi Karcis (Cetak Dokumen & Unduh File) -->
-          <div class="slip-actions no-print" style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 1.8rem;">
-            <button type="button" class="button button-primary btn-vermilion" onclick="window.print()">
+          <div class="slip-actions no-print">
+            <button type="button" class="button" onclick="window.print()">
               Cetak Karcis (PDF)
             </button>
             <button type="button" class="button button-secondary" onclick="unduhBerkasKarcis()">
@@ -523,71 +508,57 @@ $riwayat_reservasi = [
             </a>
           </div>
 
-          <div class="no-print" style="margin-top: 14px; text-align: center; font-size: 0.82rem; color: var(--text-muted);">
-            Tautan langsung menuju karcis ini: <a href="#hasil-kalkulasi" style="color: var(--accent-gold); text-decoration: underline;">#hasil-kalkulasi</a>
-          </div>
-
         </article>
       </section>
       <?php endif; ?>
 
-      <section class="page-width no-print" id="riwayat-reservasi" style="max-width: 960px; margin: 0 auto 4rem;">
-        <div style="margin-bottom: 1.5rem;">
-          <p class="eyebrow">Data Pameran &amp; Layanan</p>
-          <h3>Riwayat Reservasi Kunjungan Terkini</h3>
-          <p style="color: var(--text-muted); font-size: 0.9rem;">Daftar reservasi tiket pameran dan layanan kurator yang diproses di server.</p>
-        </div>
+      <section class="featured page-width no-print" id="riwayat-reservasi">
+        <header class="section-heading section-heading-row">
+          <section>
+            <h2>Riwayat Reservasi Kunjungan Terkini</h2>
+          </section>
+        </header>
 
-        <div style="overflow-x: auto; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 1rem;">
-          <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
-            <thead>
-              <tr style="border-bottom: 2px solid var(--border-color); text-align: left;">
-                <th style="padding: 12px 10px; color: var(--text-muted);">No</th>
-                <th style="padding: 12px 10px; color: var(--text-muted);">Nama Pengunjung / Pemesan</th>
-                <th style="padding: 12px 10px; color: var(--text-muted);">Kategori</th>
-                <th style="padding: 12px 10px; color: var(--text-muted);">Pameran &amp; Jadwal</th>
-                <th style="padding: 12px 10px; color: var(--text-muted);">Jumlah Tiket</th>
-                <th style="padding: 12px 10px; color: var(--text-muted);">Status</th>
-                <th style="padding: 12px 10px; color: var(--text-muted);">Total Bayar</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php
-              // ITERATION: Perulangan data array menggunakan foreach
-              $nomor_urut = 1;
-              foreach ($riwayat_reservasi as $item):
-              ?>
-              <tr style="border-bottom: 1px solid var(--border-subtle);">
-                <td style="padding: 10px;"><?= $nomor_urut ?></td>
-                <td style="padding: 10px; font-weight: 500;"><?= htmlspecialchars($item['nama']) ?></td>
-                <td style="padding: 10px; text-transform: capitalize;">
-                  <?= htmlspecialchars($kategori_pengunjung_master[$item['kategori']]['label'] ?? $item['kategori']) ?>
-                </td>
-                <td style="padding: 10px;">
-                  <strong><?= $paket_pameran_master[$item['pameran']]['label'] ?? $item['pameran'] ?></strong><br />
-                  <span style="font-size: 0.8rem; color: var(--text-muted);"><?= $item['tgl'] ?> &bull; <?= $item['hari'] ?></span>
-                </td>
-                <td style="padding: 10px;"><?= $item['jumlah'] ?> Tiket</td>
-                <td style="padding: 10px; font-weight: 600; color: <?= ($item['status'] === 'ROMBONGAN') ? 'var(--valid-border)' : 'var(--text-secondary)' ?>;">
-                  <?= ($item['status'] === 'ROMBONGAN') ? 'Rombongan (Diskon 15%)' : 'Reguler' ?>
-                </td>
-                <td style="padding: 10px; font-weight: 600; color: var(--accent-vermilion); font-family: var(--font-mono);">
-                  Rp <?= number_format($item['total_bayar'], 0, ',', '.') ?>
-                </td>
-              </tr>
-              <?php
-              $nomor_urut++;
-              endforeach;
-              ?>
-            </tbody>
-          </table>
-        </div>
+        <table class="metadata-table">
+          <thead>
+            <tr>
+              <th scope="col">No</th>
+              <th scope="col">Nama Pengunjung / Pemesan</th>
+              <th scope="col">Kategori</th>
+              <th scope="col">Pameran &amp; Jadwal</th>
+              <th scope="col">Jumlah Tiket</th>
+              <th scope="col">Status</th>
+              <th scope="col">Total Bayar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
+            $nomor_urut = 1;
+            foreach ($riwayat_reservasi as $item):
+            ?>
+            <tr>
+              <td><?= $nomor_urut ?></td>
+              <td><?= htmlspecialchars($item['nama']) ?></td>
+              <td><?= htmlspecialchars($kategori_pengunjung_master[$item['kategori']]['label'] ?? $item['kategori']) ?></td>
+              <td>
+                <strong><?= $paket_pameran_master[$item['pameran']]['label'] ?? $item['pameran'] ?></strong><br />
+                <span><?= $item['tgl'] ?> — <?= $item['hari'] ?></span>
+              </td>
+              <td><?= $item['jumlah'] ?> Tiket</td>
+              <td><?= ($item['status'] === 'ROMBONGAN') ? 'Rombongan (Diskon 15%)' : 'Reguler' ?></td>
+              <td>Rp <?= number_format($item['total_bayar'], 0, ',', '.') ?></td>
+            </tr>
+            <?php
+            $nomor_urut++;
+            endforeach;
+            ?>
+          </tbody>
+        </table>
       </section>
 
       <section class="manifesto page-width no-print" aria-labelledby="manifesto-layanan">
-        <p class="eyebrow">Apresiasi &amp; Pelestarian Budaya</p>
         <h2 id="manifesto-layanan">Apresiasi seni dan pelestarian warisan budaya terbuka untuk seluruh lapisan masyarakat Nusantara.</h2>
-        <a class="text-link" href="index.php">&larr; Kembali ke Beranda Galeri <span aria-hidden="true">&rarr;</span></a>
+        <a class="text-link" href="index.php">Kembali ke Beranda Galeri</a>
       </section>
     </main>
 
@@ -609,14 +580,16 @@ $riwayat_reservasi = [
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Karcis_Resmi_<?= $hasil_kalkulasi['kode_tiket'] ?? 'NGA-PASS' ?></title>
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Lora:ital,wght@0,400;0,600;1,400&family=Onest:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://api.fontshare.com/v2/css?f[]=sentient@300,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Onest', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #f4f5f7;
-      color: #111111;
+      font-family: 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f5f1e9;
+      color: #26201a;
       margin: 0;
       padding: 30px 15px;
       display: flex;
@@ -628,49 +601,45 @@ $riwayat_reservasi = [
     .karcis-wrap {
       max-width: 740px;
       width: 100%;
-      background: #ffffff;
-      border: 2px solid #222222;
-      border-radius: 8px;
-      padding: 30px;
+      background: #faf7f0;
+      border: 1px solid #26201a;
+      border-radius: 2px;
+      padding: 32px;
       box-sizing: border-box;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.08);
     }
-    .slip-brand { display: flex; align-items: center; gap: 14px; }
-    .slip-institution { font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em; color: #555; display: block; }
-    .slip-title { font-family: 'Lora', Georgia, serif; font-size: 1.45rem; margin: 4px 0 2px; color: #111; }
-    .slip-subtitle { font-size: 0.82rem; color: #666; margin: 0; }
-    .slip-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px dashed #bbb; padding-bottom: 18px; margin-bottom: 20px; gap: 16px; flex-wrap: wrap; }
+    .slip-brand { display: flex; align-items: flex-start; gap: 14px; }
+    .slip-institution { font-size: 0.78rem; color: #6e665c; display: block; }
+    .slip-title { font-family: 'Sentient', Georgia, serif; font-weight: 300; font-size: 1.65rem; margin: 4px 0 2px; color: #26201a; }
+    .slip-subtitle { font-size: 0.85rem; color: #6e665c; margin: 0; }
+    .slip-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1.5px solid #26201a; padding-bottom: 18px; margin-bottom: 20px; gap: 16px; flex-wrap: wrap; }
     .slip-serial-block { text-align: right; }
-    .slip-serial-label { font-size: 0.68rem; font-family: 'Space Mono', monospace; color: #777; display: block; }
-    .slip-serial-number { font-family: 'Space Mono', monospace; font-size: 1.15rem; font-weight: 700; color: #111; display: block; }
-    .slip-serial-time { font-size: 0.75rem; color: #777; }
+    .slip-serial-label { font-size: 0.75rem; color: #6e665c; display: block; }
+    .slip-serial-number { font-family: 'Sentient', Georgia, serif; font-size: 1.25rem; color: #26201a; display: block; }
+    .slip-serial-time { font-size: 0.75rem; color: #6e665c; }
     .slip-table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 0.92rem; }
-    .slip-table th, .slip-table td { padding: 10px 8px; border-bottom: 1px solid #e0e0e0; text-align: left; }
-    .slip-table th { color: #555; width: 40%; font-weight: 500; }
-    .slip-val-lead { font-weight: 700; font-size: 1.05rem; color: #111; }
-    .slip-row-total th, .slip-row-total td { border-top: 2px solid #222; border-bottom: 2px solid #222; font-weight: 700; font-size: 1.2rem; padding: 14px 8px; color: #111; }
-    .slip-notice { padding: 12px 14px; border-radius: 6px; margin: 16px 0; font-size: 0.86rem; border: 1px solid #ddd; background: #f9f9f9; display: flex; gap: 10px; align-items: flex-start; }
-    .slip-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #ddd; padding-top: 16px; margin-top: 20px; flex-wrap: wrap; gap: 14px; }
-    .simulated-barcode { display: flex; height: 32px; gap: 2px; align-items: stretch; margin-bottom: 4px; }
-    .simulated-barcode .bar { background: #111; width: 2px; }
+    .slip-table th, .slip-table td { padding: 10px 8px; border-bottom: 1px solid #d8d1c5; text-align: left; }
+    .slip-table th { color: #6e665c; width: 40%; font-weight: 400; }
+    .slip-val-lead { font-family: 'Sentient', Georgia, serif; font-size: 1.15rem; color: #26201a; }
+    .slip-row-total th, .slip-row-total td { border-top: 1.5px solid #26201a; border-bottom: 0; font-size: 1.25rem; padding: 14px 8px; color: #26201a; }
+    .slip-notice { padding: 12px 14px; margin: 16px 0; font-size: 0.86rem; border: 1px solid #d8d1c5; }
+    .slip-footer { display: flex; justify-content: space-between; align-items: flex-end; border-top: 1px solid #d8d1c5; padding-top: 16px; margin-top: 20px; flex-wrap: wrap; gap: 14px; }
+    .simulated-barcode { display: flex; height: 36px; gap: 2px; align-items: stretch; margin-bottom: 4px; }
+    .simulated-barcode .bar { background: #26201a; width: 2px; }
     .simulated-barcode .b2 { width: 3px; }
-    .simulated-barcode .b3 { width: 4px; }
-    .simulated-barcode .b4 { width: 6px; }
-    .barcode-number { font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 0.12em; color: #555; }
+    .simulated-barcode .b3 { width: 1px; }
+    .simulated-barcode .b4 { width: 4px; }
+    .barcode-number { font-size: 0.75rem; color: #6e665c; }
     .slip-signature-area { text-align: right; font-size: 0.8rem; }
-    .slip-sign-label { font-size: 0.72rem; color: #777; display: block; }
-    .slip-sign-officer { font-weight: 600; font-size: 0.85rem; color: #111; margin-top: 4px; display: block; }
-    .archival-stamp { display: inline-block; padding: 6px 12px; border: 2px solid #2e7d32; border-radius: 4px; color: #2e7d32; font-family: 'Space Mono', monospace; font-weight: 700; font-size: 0.8rem; margin-bottom: 14px; }
-    .stamp-border { border: 2px solid #2e7d32; padding: 8px 12px; border-radius: 4px; text-align: center; }
-    .stamp-rombongan .stamp-border { border-color: #d4a373; color: #b0703c; }
-    .stamp-rombongan { border-color: #d4a373; }
+    .slip-sign-label { font-size: 0.75rem; color: #6e665c; display: block; }
+    .slip-sign-officer { font-size: 0.85rem; color: #26201a; margin-top: 4px; display: block; }
+    .archival-stamp { display: inline-block; margin-bottom: 14px; }
+    .stamp-border { border: 1.5px solid #4c5b6b; padding: 8px 12px; color: #4c5b6b; }
     .actions-bar { margin-top: 20px; text-align: center; }
-    .btn { padding: 10px 22px; border: none; border-radius: 6px; font-weight: 600; font-size: 0.95rem; cursor: pointer; text-decoration: none; display: inline-block; }
-    .btn-print { background: #cf332b; color: #fff; margin-right: 10px; }
+    .btn { padding: 12px 24px; border: 1px solid #26201a; border-radius: 999px; background: transparent; color: #26201a; font-size: 0.9rem; cursor: pointer; }
     @media print {
       body { background: #fff; padding: 0; }
       .actions-bar { display: none !important; }
-      .karcis-wrap { border: 2px solid #000; box-shadow: none; max-width: 100%; padding: 20px; }
+      .karcis-wrap { border: 1px solid #000; max-width: 100%; padding: 20px; }
     }
   </style>
 </head>
@@ -679,7 +648,7 @@ $riwayat_reservasi = [
     ${clone.innerHTML}
   </div>
   <div class="actions-bar">
-    <button class="btn btn-print" onclick="window.print()">Cetak Dokumen Ini</button>
+    <button class="btn" onclick="window.print()">Cetak Dokumen Ini</button>
   </div>
 </body>
 </html>`;
@@ -706,6 +675,5 @@ $riwayat_reservasi = [
     </script>
 
 <?php
-// Memanggil Komponen Modular Layout Footer
 include "layout/footer.php";
 ?>

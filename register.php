@@ -1,21 +1,21 @@
 <?php
 // Registrasi Akun Kurator
-$page_title       = "Daftar Akun Kurator Baru | Nusantara Gallery Art";
+$page_title       = "Daftar Akun Kurator Baru — Nusantara Gallery Art";
 $page_description = "Registrasi akun pengelola kuratorial dan arsiparis Nusantara Gallery Art.";
 $current_page     = "login";
 
 include "layout/header.php";
 ?>
 
-    <main id="main-content" class="auth-main">
+    <main id="main-content" class="auth-main page-width">
       <section class="login-section" aria-labelledby="register-title">
         <article class="login-card">
           <div class="auth-header-badge">
             <span class="auth-badge-tag">Sistem Informasi GLAM</span>
-            <span class="auth-badge-id">PORTAL-REGISTER</span>
+            <span class="auth-badge-id">Registrasi Kurator</span>
           </div>
 
-          <h2 id="register-title">Buat Akun Kurator Baru</h2>
+          <h3 id="register-title">Buat Akun Kurator Baru</h3>
           <p class="auth-intro">Daftarkan akun kurator baru untuk mendapatkan akses ke lembar preservasi digital dan sistem entri metadata koleksi GLAM Nusantara Gallery Art.</p>
 
           <!-- Formulir Pendaftaran Kurator Baru -->
@@ -96,19 +96,19 @@ include "layout/header.php";
               />
             </div>
 
-            <button class="button button-primary btn-vermilion button-full" type="submit">
-              Daftarkan Akun &amp; Buka Formulir <span aria-hidden="true">↗</span>
+            <button class="button button-full" type="submit">
+              Daftarkan Akun &amp; Buka Formulir
             </button>
             <p class="form-message" data-reg-message aria-live="polite"></p>
           </form>
 
           <!-- Tautan kembali ke Login -->
           <p class="auth-switch-text">
-            Sudah memiliki akun? <a href="login.php" class="text-link">Masuk ke Portal Kurator →</a>
+            Sudah memiliki akun? <a href="login.php" class="text-link">Masuk ke Portal Kurator</a>
           </p>
 
           <div class="auth-card-footer">
-            <a class="text-link return-link" href="index.php">← Kembali ke Beranda Galeri</a>
+            <a class="text-link return-link" href="index.php">Kembali ke Beranda Galeri</a>
             <span class="auth-security-note">Terenkripsi Standar Sistem GLAM</span>
           </div>
         </article>

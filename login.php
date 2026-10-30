@@ -20,7 +20,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
     exit;
 }
 
-$page_title       = "Masuk Portal Kurator | Nusantara Gallery Art";
+$page_title       = "Masuk Portal Kurator — Nusantara Gallery Art";
 $page_description = "Portal autentikasi pengelola kuratorial dan arsiparis Nusantara Gallery Art.";
 $current_page     = "login";
 
@@ -82,20 +82,20 @@ $sudah_login = !empty($_SESSION['kurator_logged_in']);
 include "layout/header.php";
 ?>
 
-    <main id="main-content" class="auth-main">
+    <main id="main-content" class="auth-main page-width">
       <section class="login-section" aria-labelledby="login-title">
         <article class="login-card">
           <div class="auth-header-badge">
             <span class="auth-badge-tag">Sistem Informasi GLAM</span>
-            <span class="auth-badge-id">AUTH</span>
+            <span class="auth-badge-id">Portal Kurator</span>
           </div>
 
           <?php if (isset($_GET['pesan']) && $_GET['pesan'] === 'wajib_login'): ?>
-            <div style="background: var(--invalid-bg); border: 1px solid var(--invalid-border); padding: 12px 16px; border-radius: 8px; margin-bottom: 1.2rem; color: var(--invalid-border); font-size: 0.9rem; line-height: 1.5;">
+            <div class="form-status-banner is-error">
               <strong>Akses Terproteksi:</strong> Halaman Entri Metadata GLAM bersifat tertutup dan hanya dapat diakses setelah kurator berhasil masuk.
             </div>
           <?php elseif (isset($_GET['pesan']) && $_GET['pesan'] === 'logout'): ?>
-            <div style="background: var(--valid-bg); border: 1px solid var(--valid-border); padding: 12px 16px; border-radius: 8px; margin-bottom: 1.2rem; color: var(--valid-border); font-size: 0.9rem;">
+            <div class="form-status-banner is-success">
               <strong>Sesi Selesai:</strong> Anda telah keluar dari sesi kuratorial.
             </div>
           <?php endif; ?>
@@ -106,17 +106,16 @@ include "layout/header.php";
             $nip_user   = $_SESSION['kurator_nip'] ?? $master_kurator['nip'];
             $peran_user = $_SESSION['kurator_peran'] ?? 'Kurator Koleksi & Preservasi';
             ?>
-            <div style="text-align: center; padding: 1rem 0;">
-              <div style="font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.15em; color: var(--accent-gold); margin-bottom: 0.6rem;">PORTAL KURATOR &bull; GLAM</div>
-              <h2 id="login-title" style="margin-bottom: 0.4rem;">Sesi Kuratorial Aktif</h2>
-              <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.95rem;">
+            <div>
+              <h3 id="login-title">Sesi Kuratorial Aktif</h3>
+              <p class="auth-intro">
                 <?= !empty($pesan_login) ? htmlspecialchars($pesan_login) : "Selamat datang kembali, " . htmlspecialchars($nama_user) . "." ?>
               </p>
 
               <!-- Kartu Kredensial Pengenal Kurator -->
               <div class="curator-pass-container">
                 <div class="curator-pass-header">
-                  <span class="curator-pass-chip">TERAUTENTIKASI RESMI</span>
+                  <span class="curator-pass-chip">Terautentikasi Resmi</span>
                   <span class="curator-pass-id">ID: KUR-<?= strtoupper(substr(md5($nip_user), 0, 6)) ?></span>
                 </div>
 
@@ -127,7 +126,7 @@ include "layout/header.php";
                   </div>
                   <div class="curator-pass-row">
                     <span class="curator-pass-label">NIM / NIP</span>
-                    <span class="curator-pass-value font-mono"><?= htmlspecialchars($nip_user) ?></span>
+                    <span class="curator-pass-value"><?= htmlspecialchars($nip_user) ?></span>
                   </div>
                   <div class="curator-pass-row">
                     <span class="curator-pass-label">Peran Kuratorial</span>
@@ -135,35 +134,32 @@ include "layout/header.php";
                   </div>
                   <div class="curator-pass-row">
                     <span class="curator-pass-label">Waktu Sesi Masuk</span>
-                    <span class="curator-pass-value font-mono"><?= date('d F Y, H:i:s') ?> WIB</span>
+                    <span class="curator-pass-value"><?= date('d F Y, H:i:s') ?> WIB</span>
                   </div>
                   <div class="curator-pass-row">
                     <span class="curator-pass-label">Tingkat Izin Sistem</span>
-                    <span class="curator-pass-value" style="color: var(--valid-border);">&#9679; Akses Penuh Entri Metadata</span>
+                    <span class="curator-pass-value">Akses Penuh Entri Metadata</span>
                   </div>
                 </div>
               </div>
 
-              <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                <a class="button button-primary btn-vermilion" href="formulir.php">
-                  Buka Formulir Entri GLAM <span aria-hidden="true">→</span>
+              <div class="hero-actions">
+                <a class="button" href="formulir.php">
+                  Buka Formulir Entri GLAM
                 </a>
-                <a class="button button-secondary" href="layanan.php">
+                <a class="text-link" href="layanan.php">
                   Reservasi Tiket &amp; Layanan
                 </a>
-              </div>
-
-              <div style="margin-top: 1.5rem;">
-                <a class="text-link" href="login.php?action=logout">← Keluar Sesi (Logout)</a>
+                <a class="text-link" href="login.php?action=logout">Keluar Sesi</a>
               </div>
             </div>
 
           <?php else: ?>
-            <h2 id="login-title">Masuk Portal Kurator</h2>
+            <h3 id="login-title">Masuk Portal Kurator</h3>
             <p class="auth-intro">Autentikasi akun pengurus GLAM untuk mengakses panel preservasi dan formulir entri metadata tertutup.</p>
 
             <?php if ($status_login === 'error'): ?>
-              <div style="background: var(--invalid-bg); border: 1px solid var(--invalid-border); padding: 12px 16px; border-radius: 8px; margin-bottom: 1.2rem; color: var(--invalid-border); font-size: 0.9rem;">
+              <div class="form-status-banner is-error">
                 <strong>Autentikasi Gagal:</strong> <?= htmlspecialchars($pesan_login) ?>
               </div>
             <?php endif; ?>
@@ -202,25 +198,21 @@ include "layout/header.php";
                   <option value="konservator">Konservator Arsip &amp; Benda Budaya</option>
                   <option value="admin">Administrator Sistem Informasi GLAM</option>
                 </select>
+                <small class="form-hint">Kredensial Pengurus: Username <code>kurator.yanel</code> — Password <code>glam2026</code></small>
               </div>
 
-              <button class="button button-primary btn-vermilion button-full" type="submit">
-                Masuk ke Portal Pengurus <span aria-hidden="true">→</span>
+              <button class="button button-full" type="submit">
+                Masuk ke Portal Pengurus
               </button>
             </form>
 
-            <div style="margin-top: 1.2rem; padding: 12px 14px; background: var(--bg-surface); border: 1px dashed var(--border-color); border-radius: 8px; font-size: 0.83rem; color: var(--text-muted); line-height: 1.5;">
-              <strong>Kredensial Pengurus:</strong><br />
-              Username: <code style="font-family: var(--font-mono); color: var(--accent-vermilion);">kurator.yanel</code> &nbsp;|&nbsp; Password: <code style="font-family: var(--font-mono); color: var(--accent-vermilion);">glam2026</code>
-            </div>
-
             <p class="auth-switch-text">
-              Memerlukan pendaftaran kurator baru? <a href="register.php" class="text-link">Ajukan registrasi pengurus →</a>
+              Memerlukan pendaftaran kurator baru? <a href="register.php" class="text-link">Ajukan registrasi pengurus</a>
             </p>
           <?php endif; ?>
 
           <div class="auth-card-footer">
-            <a class="text-link return-link" href="index.php">← Kembali ke Beranda Galeri</a>
+            <a class="text-link return-link" href="index.php">Kembali ke Beranda Galeri</a>
             <span class="auth-security-note">Terenkripsi Standar Sistem GLAM</span>
           </div>
         </article>

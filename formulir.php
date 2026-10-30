@@ -22,7 +22,7 @@ if (empty($_SESSION['kurator_logged_in'])) {
     exit;
 }
 
-$page_title       = "Formulir Entri Metadata Koleksi | Nusantara Gallery Art";
+$page_title       = "Formulir Entri Metadata Koleksi — Nusantara Gallery Art";
 $page_description = "Formulir entri metadata dan pengajuan preservasi digital koleksi warisan budaya Nusantara (GLAM).";
 $current_page     = "formulir";
 
@@ -51,19 +51,19 @@ include "layout/header.php";
 
     <main id="main-content" class="page-width form-page-container">
       <header class="page-title editorial-header">
-        <p class="eyebrow">Dokumentasi &amp; Entri Sistem Informasi GLAM</p>
         <h2>Formulir Registrasi &amp; Metadata Koleksi Budaya</h2>
+        <p>Dokumentasi dan entri terstruktur sistem informasi GLAM untuk objek warisan budaya Nusantara.</p>
       </header>
 
       <section class="form-wrapper-card" aria-labelledby="form-heading">
         <header class="form-card-header">
           <div class="archive-stamp">
             <span class="stamp-code">GLAM-DKPD236013</span>
-            <span class="stamp-label">FORMULIR INPUT RESMI</span>
+            <span class="stamp-label">Formulir Input Resmi</span>
           </div>
           <h3 id="form-heading">Lembar Pengajuan Objek Warisan Budaya</h3>
           <p class="form-intro">
-            Tanda bintang (<span class="required-indicator" aria-hidden="true">*</span>) menunjukkan kolom wajib isi (*Completeness Check*). Perhatikan format data pada masing-masing field (*Format Check*).
+            Tanda bintang (<span class="required-indicator" aria-hidden="true">*</span>) menunjukkan kolom wajib isi (<em>Completeness Check</em>). Perhatikan format data pada masing-masing field (<em>Format Check</em>).
           </p>
         </header>
 
@@ -118,7 +118,7 @@ include "layout/header.php";
               <span class="group-label">
                 Pilar Lembaga GLAM Asal Objek <span class="required-indicator" aria-label="wajib isi">*</span>
               </span>
-              <small class="form-hint">Pilih salah satu dari 4 kategori yang saling pilah (*mutually exclusive*):</small>
+              <small class="form-hint">Pilih salah satu dari 4 kategori yang saling pilah (<em>mutually exclusive</em>):</small>
               <div class="radio-button-grid" role="radiogroup" aria-required="true">
                 <label class="radio-card">
                   <input type="radio" name="pilar_glam" value="galeri" required />
@@ -190,14 +190,14 @@ include "layout/header.php";
                   type="text" 
                   id="nomor_inventaris" 
                   name="nomor_inventaris" 
-                  class="form-control font-mono" 
+                  class="form-control" 
                   placeholder="NG-1857-001" 
                   pattern="NG-[0-9]{4}-[0-9]{3}" 
                   title="Format wajib: NG-YYYY-XXX (contoh: NG-1857-001)" 
                   required 
                   aria-describedby="hint-inventaris"
                 />
-                <small id="hint-inventaris" class="form-hint">Format Check: pola harus diawali `NG-` diikuti 4 digit tahun dan 3 digit seri.</small>
+                <small id="hint-inventaris" class="form-hint">Format Check: pola harus diawali NG- diikuti 4 digit tahun dan 3 digit seri.</small>
               </div>
             </div>
 
@@ -240,7 +240,7 @@ include "layout/header.php";
               <span class="group-label">
                 Format Berkas Digital yang Tersedia (Boleh Lebih Dari Satu) <span class="required-indicator" aria-label="wajib isi">*</span>
               </span>
-              <small class="form-hint">Check box untuk opsi non-eksklusif / pemilihan jamak (*multiple choice*):</small>
+              <small class="form-hint">Check box untuk opsi non-eksklusif / pemilihan jamak (<em>multiple choice</em>):</small>
               <div class="checkbox-group-grid">
                 <label class="checkbox-card">
                   <input type="checkbox" name="format_media[]" value="foto_raw" checked />
@@ -313,8 +313,8 @@ include "layout/header.php";
             <button type="reset" class="button button-secondary">
               Bersihkan Formulir
             </button>
-            <button type="submit" class="button button-primary btn-vermilion">
-              Simpan &amp; Daftarkan Metadata Koleksi <span aria-hidden="true">↗</span>
+            <button type="submit" class="button">
+              Simpan &amp; Daftarkan Metadata Koleksi
             </button>
           </div>
         </form>

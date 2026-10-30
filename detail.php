@@ -10,7 +10,7 @@ if (!$item) {
     exit;
 }
 
-$page_title       = "{$item['judul']} | Nusantara Gallery Art";
+$page_title       = "{$item['judul']} — Nusantara Gallery Art";
 $page_description = "Rekod metadata dan catatan kuratorial {$item['judul']} — {$item['kategori']}.";
 $current_page     = "koleksi";
 
@@ -26,7 +26,7 @@ include "layout/header.php";
       document.addEventListener('DOMContentLoaded', () => {
 
         /* Update <title> dan <meta description> */
-        document.title = `${data.judul} | Nusantara Gallery Art`;
+        document.title = `${data.judul} — Nusantara Gallery Art`;
         const metaDesc = document.querySelector('meta[name="description"]');
         if (metaDesc) {
           metaDesc.setAttribute(
@@ -37,7 +37,7 @@ include "layout/header.php";
 
         /* Render header halaman */
         document.querySelector('[data-detail-eyebrow]').textContent =
-          `Rekod koleksi · ${data.inventaris}`;
+          `Rekod Koleksi — ${data.inventaris}`;
         document.querySelector('[data-detail-judul]').textContent = data.judul;
 
         /* Render gambar dengan fallback aman */
@@ -52,7 +52,7 @@ include "layout/header.php";
         };
         img.src = data.gambar;
         img.alt = data.altGambar || data.judul;
-        document.querySelector('[data-detail-caption]').textContent = data.caption || `${data.pencipta} · ${data.tahun}`;
+        document.querySelector('[data-detail-caption]').textContent = data.caption || `${data.pencipta}, ${data.tahun}`;
 
         /* Render badge kategori */
         document.querySelector('[data-detail-kategori]').textContent = data.kategori;
@@ -88,7 +88,7 @@ include "layout/header.php";
       function openVirtualModal(item) {
         const overlay = document.querySelector('#modal-3d-overlay');
         document.querySelector('#modal-artwork-title').textContent = item.judul;
-        document.querySelector('#modal-room-tag').textContent = `${item.ruang3D || 'RUANG UTAMA'} · ${item.tahun}`;
+        document.querySelector('#modal-room-tag').textContent = `${item.ruang3D || 'Ruang Utama'} — ${item.tahun}`;
         document.querySelector('#modal-info-footer').textContent = item.infoVisual || 'Visualisasi kuratorial 3D ruang pameran museum.';
 
         overlay.classList.add('is-active');
@@ -265,7 +265,7 @@ include "layout/header.php";
           targetRotX = Math.max(-0.4, Math.min(0.4, targetRotX + deltaY * 0.004));
         };
 
-        canvas.onpointerup = canvas.onpointercancel = (e) => {
+        canvas.onpointerup = canvas.onpointercancel = () => {
           isDragging = false;
         };
 
@@ -278,7 +278,7 @@ include "layout/header.php";
 
     <main id="main-content" class="page-width">
       <header class="page-title">
-        <p class="eyebrow" data-detail-eyebrow>Rekod koleksi</p>
+        <p data-detail-eyebrow>Rekod Koleksi</p>
         <h2 data-detail-judul>Memuat koleksi…</h2>
         <p>Rekod metadata dan konteks kuratorial untuk mendukung penelusuran, sitasi, dan riset koleksi.</p>
       </header>
@@ -289,7 +289,7 @@ include "layout/header.php";
         </figure>
         <section class="metadata-panel" aria-labelledby="metadata-title">
           <p class="badge" data-detail-kategori></p>
-          <h2 id="metadata-title">Metadata objek</h2>
+          <h2 id="metadata-title">Metadata Objek</h2>
           <table class="metadata-table">
             <tbody>
               <tr><th scope="row">Nomor inventaris</th><td data-td-inventaris></td></tr>
@@ -305,13 +305,13 @@ include "layout/header.php";
             </tbody>
           </table>
           <section class="curatorial-notes" aria-labelledby="notes-title">
-            <h3 id="notes-title">Catatan kuratorial</h3>
+            <h3 id="notes-title">Catatan Kuratorial</h3>
             <p data-detail-catatan></p>
           </section>
           <nav class="metadata-actions" aria-label="Tindakan metadata">
-            <a class="button button-secondary" href="catalog.php">← Kembali ke Katalog</a>
-            <button class="button button-secondary btn-secondary" type="button" data-print-metadata>Unduh Metadata PDF</button>
-            <button class="button button-primary btn-primary" type="button" data-btn-exhibit>Buka Virtual Exhibition 3D <span aria-hidden="true">↗</span></button>
+            <a class="button button-secondary" href="catalog.php">Kembali ke Katalog</a>
+            <button class="button button-secondary" type="button" data-print-metadata>Unduh Metadata PDF</button>
+            <button class="button" type="button" data-btn-exhibit>Buka Virtual Exhibition 3D</button>
           </nav>
         </section>
       </section>
@@ -322,7 +322,7 @@ include "layout/header.php";
       <div class="modal-3d-dialog">
         <header class="modal-3d-header">
           <div>
-            <span class="modal-room-tag" id="modal-room-tag">RUANG 01 — LUKISAN SEJARAH</span>
+            <span class="modal-room-tag" id="modal-room-tag">Ruang 01 — Lukisan Sejarah</span>
             <h3 id="modal-artwork-title" class="modal-3d-title">Judul Koleksi</h3>
           </div>
           <button type="button" class="btn-modal-close" onclick="closeVirtualModal()" aria-label="Tutup pameran 3D">×</button>
@@ -330,12 +330,12 @@ include "layout/header.php";
         <div class="modal-3d-canvas-wrap">
           <canvas id="modal-canvas-3d"></canvas>
           <div class="modal-3d-hint">
-            <span>Seret kursor untuk memutar sudut pandang · Gulir roda mouse untuk memperbesar</span>
+            <span>Seret kursor untuk memutar sudut pandang, gulir roda mouse untuk memperbesar</span>
           </div>
         </div>
         <footer class="modal-3d-footer">
           <p id="modal-info-footer">Tampilan format interaktif ruang pamer seni rupa.</p>
-          <button type="button" class="button button-secondary btn-sm" onclick="closeVirtualModal()">Tutup Tampilan 3D</button>
+          <button type="button" class="button btn-sm" onclick="closeVirtualModal()">Tutup Tampilan 3D</button>
         </footer>
       </div>
     </div>

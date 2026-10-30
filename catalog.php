@@ -2,7 +2,7 @@
 // Katalog Koleksi
 require_once __DIR__ . '/data/koleksi.php';
 
-$page_title       = "Koleksi | Nusantara Gallery Art";
+$page_title       = "Koleksi — Nusantara Gallery Art";
 $page_description = "Telusuri 50 koleksi lukisan, naskah, artefak, dan wastra Nusantara dengan filter kategori dan rentang era.";
 $current_page     = "koleksi";
 
@@ -13,7 +13,6 @@ include "layout/header.php";
 
     <main id="main-content" class="page-width">
       <header class="page-title">
-        <p class="eyebrow">Arsip Terbuka GLAM</p>
         <h2>Koleksi yang Merawat Ingatan</h2>
         <p>Telusuri <?= (int)$counts['all'] ?> karya pilihan warisan budaya Nusantara melalui dokumentasi metadata visual dan kuratorial terpercaya. Gunakan bilah samping untuk memfilter berdasarkan kategori, rentang era sejarah, atau melakukan pemesanan tiket pameran.</p>
       </header>
@@ -115,7 +114,6 @@ include "layout/header.php";
           <!-- 4. Layanan Reservasi Tiket Pameran (Sidebar Widget) -->
           <div class="sidebar-widget sidebar-service-card">
             <div class="service-card-header">
-              <span class="service-card-icon" style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; border: 1px solid var(--border-color); padding: 3px 6px; border-radius: 4px;">PASS</span>
               <div>
                 <h4>Reservasi Tiket</h4>
                 <p>Karcis &amp; Tur Pameran</p>
@@ -124,13 +122,13 @@ include "layout/header.php";
             <p class="service-card-desc">
               Pesan karcis kunjungan pameran, tur kurator ahli, dan nikmati diskon rombongan pameran seni.
             </p>
-            <a href="layanan.php" class="button button-primary btn-vermilion button-full service-btn">
-              Pesan Tiket Pameran <span aria-hidden="true">→</span>
+            <a href="layanan.php" class="button button-full service-btn">
+              Pesan Tiket Pameran
             </a>
           </div>
 
           <!-- 5. Tombol Reset Filter -->
-          <div class="sidebar-widget" style="margin-bottom: 0;">
+          <div class="sidebar-widget">
             <button type="button" class="btn-reset-filters" id="btn-reset-filters">
               Reset Semua Filter
             </button>
@@ -174,8 +172,8 @@ include "layout/header.php";
                 <section>
                   <h3><?= htmlspecialchars($item['judul'] ?? '') ?></h3>
                   <p class="meta-artist"><?= htmlspecialchars($item['pencipta'] ?? '') ?></p>
-                  <span class="era"><?= htmlspecialchars($item['asal'] ?? '') ?> · <?= htmlspecialchars($item['tahun'] ?? '') ?></span>
-                  <a class="text-link" href="detail.php?id=<?= urlencode($item['id']) ?>">Lihat rekod <span aria-hidden="true">→</span></a>
+                  <span class="era"><?= htmlspecialchars($item['asal'] ?? '') ?>, <?= htmlspecialchars($item['tahun'] ?? '') ?></span>
+                  <a class="text-link" href="detail.php?id=<?= urlencode($item['id']) ?>">Lihat Rekod</a>
                 </section>
               </article>
             <?php endforeach; ?>
