@@ -11,6 +11,7 @@ define('DB_NAME', getenv('DB_NAME') ?: 'db_glam_nusantaragallery');
 define('DB_USER', getenv('DB_USER') ?: 'root');
 define('DB_PASS', getenv('DB_PASS') ?: '');
 define('DB_CHARSET', 'utf8mb4');
+define('DB_SSL', getenv('DB_SSL') ?: '0'); // set 1 untuk database cloud (TiDB, Aiven, dll.) yang mewajibkan TLS
 
 /**
  * Mendapatkan koneksi PDO ke basis data
@@ -29,6 +30,12 @@ function get_db_connection() {
         PDO::ATTR_EMULATE_PREPARES   => false,
         PDO::ATTR_TIMEOUT            => 2, // Timeout cepat untuk fallback
     ];
+
+    if (DB_SSL === '1') {
+        // shortcut: sertifikat server tidak diverifikasi (CA bundle tidak ada di lambda Vercel), upgrade dengan DB_SSL_CA bila perlu
+        $options[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = false;
+        if (getenv('DB_SSL_CA')) { $options[PDO::MYSQL_ATTR_SSL_CA] = getenv('DB_SSL_CA'); }
+    }
 
     try {
         $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
