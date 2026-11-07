@@ -1,21 +1,11 @@
 <?php
 // Portal Masuk Kurator
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+require_once __DIR__ . '/config/auth.php';
+auth_check();
 
 // Aksi Logout
 if (isset($_GET['action']) && $_GET['action'] === 'logout') {
-    $_SESSION = [];
-    if (ini_get("session.use_cookies")) {
-        $params = session_get_cookie_params();
-        setcookie(session_name(), '', time() - 42000,
-            $params["path"], $params["domain"],
-            $params["secure"], $params["httponly"]
-        );
-    }
-    setcookie('nga_kurator_token', '', time() - 42000, '/');
-    session_destroy();
+    auth_logout();
     header("Location: login.php?pesan=logout");
     exit;
 }
@@ -23,15 +13,6 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
 $page_title       = "Masuk Portal Kurator — Nusantara Gallery Art";
 $page_description = "Portal autentikasi pengelola kuratorial dan arsiparis Nusantara Gallery Art.";
 $current_page     = "login";
-
-// Kredensial Pengurus GLAM (Data Master Simulasi)
-$master_kurator = [
-    'username'  => 'kurator.yanel',
-    'password'  => 'glam2026',
-    'nama'      => 'Mohammad Yanuar Rizky',
-    'nip'       => '250911718423',
-    'institusi' => 'Universitas Negeri Malang',
-];
 
 $status_login   = null;
 $pesan_login    = '';
@@ -53,26 +34,15 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
     if (empty($input_username) || empty($input_password)) {
         $status_login = 'error';
         $pesan_login  = 'Username dan kata sandi wajib diisi lengkap.';
-    } elseif ($input_username === $master_kurator['username'] && $input_password === $master_kurator['password']) {
+    } elseif ($kurator = auth_verify_login($input_username, $input_password)) {
         $status_login = 'success';
-        $nama_aktif   = $master_kurator['nama'];
+        $nama_aktif   = $kurator['nama'];
         $peran_aktif  = $daftar_peran[$input_role] ?? 'Kurator Galeri';
-        
-        // Simpan sesi login kurator
-        $_SESSION['kurator_logged_in'] = true;
-        $_SESSION['kurator_user']      = $master_kurator['username'];
-        $_SESSION['kurator_nama']      = $master_kurator['nama'];
-        $_SESSION['kurator_nip']       = $master_kurator['nip'];
-        $_SESSION['kurator_peran']     = $peran_aktif;
-
-        // Token autentikasi untuk kehandalan lingkungan serverless (Vercel)
-        $token = hash_hmac('sha256', $master_kurator['username'], 'nga_glam_secret_2026');
-        setcookie('nga_kurator_token', $token, time() + 86400, '/', '', false, true);
-
+        auth_login($kurator, $peran_aktif);
         $pesan_login  = "Autentikasi berhasil! Selamat bertugas di Ruang Kuratorial, {$nama_aktif}.";
     } else {
         $status_login = 'error';
-        $pesan_login  = 'Username atau kata sandi tidak cocok dengan basis data kurator.';
+        $pesan_login  = 'Email/NIP/username atau kata sandi tidak cocok.';
     }
 }
 
@@ -99,11 +69,14 @@ include "layout/header.php";
               <strong>Sesi Selesai:</strong> Anda telah keluar dari sesi kuratorial.
             </div>
           <?php endif; ?>
+          <?php if (($_GET['pesan'] ?? '') === 'terdaftar'): ?>
+            <div class="form-status-banner is-success"><strong>Akun Dibuat:</strong> Silakan masuk dengan email atau NIP Anda.</div>
+          <?php endif; ?>
 
           <?php if ($status_login === 'success' || $sudah_login): ?>
             <?php
-            $nama_user  = $_SESSION['kurator_nama'] ?? $master_kurator['nama'];
-            $nip_user   = $_SESSION['kurator_nip'] ?? $master_kurator['nip'];
+            $nama_user  = $_SESSION['kurator_nama'] ?? '';
+            $nip_user   = $_SESSION['kurator_nip'] ?? '';
             $peran_user = $_SESSION['kurator_peran'] ?? 'Kurator Koleksi & Preservasi';
             ?>
             <div>

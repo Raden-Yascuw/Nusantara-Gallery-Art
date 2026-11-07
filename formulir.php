@@ -1,20 +1,7 @@
 <?php
 // Formulir Entri Koleksi GLAM (Khusus Kurator Terautentikasi)
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-// Restorasi sesi kurator untuk lingkungan serverless (Vercel)
-if (empty($_SESSION['kurator_logged_in']) && !empty($_COOKIE['nga_kurator_token'])) {
-    $expected_token = hash_hmac('sha256', 'kurator.yanel', 'nga_glam_secret_2026');
-    if (hash_equals($expected_token, $_COOKIE['nga_kurator_token'])) {
-        $_SESSION['kurator_logged_in'] = true;
-        $_SESSION['kurator_user']      = 'kurator.yanel';
-        $_SESSION['kurator_nama']      = 'Mohammad Yanuar Rizky';
-        $_SESSION['kurator_nip']       = '250911718423';
-        $_SESSION['kurator_peran']     = 'Kurator Koleksi & Preservasi';
-    }
-}
+require_once __DIR__ . '/config/auth.php';
+auth_check();
 
 // Proteksi Akses: Hanya bisa dibuka jika sudah login
 if (empty($_SESSION['kurator_logged_in'])) {

@@ -4,6 +4,17 @@ $page_title       = "Daftar Akun Kurator Baru — Nusantara Gallery Art";
 $page_description = "Registrasi akun pengelola kuratorial dan arsiparis Nusantara Gallery Art.";
 $current_page     = "login";
 
+require_once __DIR__ . '/config/auth.php';
+$pesan_reg = '';
+if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
+    $pesan_reg = auth_register(trim($_POST['reg_nama'] ?? ''), trim($_POST['reg_nip'] ?? ''), trim($_POST['reg_email'] ?? ''),
+        $_POST['reg_divisi'] ?? '', $_POST['reg_password'] ?? '', $_POST['reg_confirm'] ?? '');
+    if ($pesan_reg === null) {
+        header('Location: login.php?pesan=terdaftar');
+        exit;
+    }
+}
+
 include "layout/header.php";
 ?>
 
@@ -19,13 +30,14 @@ include "layout/header.php";
           <p class="auth-intro">Daftarkan akun kurator baru untuk mendapatkan akses ke lembar preservasi digital dan sistem entri metadata koleksi GLAM Nusantara Gallery Art.</p>
 
           <!-- Formulir Pendaftaran Kurator Baru -->
-          <form class="login-form" id="register-form" data-register-form novalidate>
+          <form class="login-form" id="register-form" method="POST" action="register.php">
             <div class="form-group">
               <label for="reg-nama">Nama Lengkap Kurator <span class="required-indicator">*</span></label>
               <input
                 id="reg-nama"
                 type="text"
                 name="reg_nama"
+                value="<?= htmlspecialchars($_POST['reg_nama'] ?? '') ?>"
                 placeholder="Contoh: Mohammad Yanuar Rizky"
                 required
                 minlength="3"
@@ -39,6 +51,7 @@ include "layout/header.php";
                 id="reg-nip"
                 type="text"
                 name="reg_nip"
+                value="<?= htmlspecialchars($_POST['reg_nip'] ?? '') ?>"
                 placeholder="Contoh: 250911718423"
                 required
                 pattern="[0-9]{6,20}"
@@ -53,6 +66,7 @@ include "layout/header.php";
                 id="reg-email"
                 type="email"
                 name="reg_email"
+                value="<?= htmlspecialchars($_POST['reg_email'] ?? '') ?>"
                 placeholder="kurator@institusi.ac.id"
                 required
                 autocomplete="email"
@@ -99,7 +113,7 @@ include "layout/header.php";
             <button class="button button-full" type="submit">
               Daftarkan Akun &amp; Buka Formulir
             </button>
-            <p class="form-message" data-reg-message aria-live="polite"></p>
+            <p class="form-message" aria-live="polite" style="color: var(--invalid-border)"><?= htmlspecialchars($pesan_reg) ?></p>
           </form>
 
           <!-- Tautan kembali ke Login -->
