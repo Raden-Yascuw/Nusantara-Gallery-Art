@@ -8,6 +8,7 @@ $current_page     = "layanan";
 
 // Memanggil Komponen Modular Layout Header
 include "layout/header.php";
+require_once __DIR__ . '/config/database.php';
 
 // Master Kategori Pengunjung (Tarif Bersubsidi & Komersial)
 $kategori_pengunjung_master = [
@@ -119,6 +120,23 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         // Kode Registrasi Tiket Unik
         $kode_tiket = 'NGA-PASS-2026-' . strtoupper(substr(md5($form_input['nama_pemesan'] . $form_input['tanggal_kunjungan']), 0, 8));
 
+        // Simpan reservasi ke MySQL bila tersedia (di Vercel tanpa DB, dilewati)
+        if ($db = get_db_connection()) {
+            try {
+                $db->prepare(
+                    "INSERT INTO reservasi (kode_tiket, nama_pemesan, tanggal_kunjungan, jumlah_tiket, id_kat_pengunjung, id_pameran, id_layanan)
+                     SELECT ?, ?, ?, ?, kp.id_kat_pengunjung, pm.id_pameran, lt.id_layanan
+                     FROM kategori_pengunjung kp, pameran pm, layanan_tambahan lt
+                     WHERE kp.kode_kategori = ? AND pm.kode_pameran = ? AND lt.kode_layanan = ?
+                     ON DUPLICATE KEY UPDATE jumlah_tiket = VALUES(jumlah_tiket), id_kat_pengunjung = VALUES(id_kat_pengunjung),
+                                             id_pameran = VALUES(id_pameran), id_layanan = VALUES(id_layanan)"
+                )->execute([$kode_tiket, $form_input['nama_pemesan'], $tgl_obj->format('Y-m-d'), $form_input['jumlah_tiket'],
+                            $form_input['kategori_pengunjung'], $form_input['paket_pameran'], $form_input['layanan_tambahan']]);
+            } catch (PDOException $e) {
+                error_log('Gagal menyimpan reservasi: ' . $e->getMessage());
+            }
+        }
+
         $hasil_kalkulasi = [
             'nama_pemesan'             => htmlspecialchars($form_input['nama_pemesan']),
             'kategori_label'           => $info_kategori['label'],
@@ -202,6 +220,32 @@ $riwayat_reservasi = [
         'total_bayar' => 459000,
     ],
 ];
+
+// Riwayat dari tabel reservasi bila tersedia; hasil kalkulasi dihitung ulang (tidak disimpan di DB)
+if (($db = get_db_connection()) && ($rows = $db->query(
+    "SELECT r.nama_pemesan, r.tanggal_kunjungan, r.jumlah_tiket, kp.kode_kategori, pm.kode_pameran, lt.kode_layanan
+     FROM reservasi r JOIN kategori_pengunjung kp USING (id_kat_pengunjung)
+     JOIN pameran pm USING (id_pameran) JOIN layanan_tambahan lt USING (id_layanan)
+     ORDER BY r.tanggal_kunjungan DESC LIMIT 10"
+)->fetchAll())) {
+    $bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+    $hari_id = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+    $riwayat_reservasi = [];
+    foreach ($rows as $r) {
+        $t = new DateTime($r['tanggal_kunjungan']);
+        $akhir_pekan = in_array($t->format('w'), ['0', '6']);
+        $sub = ($kategori_pengunjung_master[$r['kode_kategori']]['tarif'] + $paket_pameran_master[$r['kode_pameran']]['biaya']
+                + ($akhir_pekan ? 5000 : 0)) * $r['jumlah_tiket'];
+        $rombongan = $r['jumlah_tiket'] >= 5;
+        $riwayat_reservasi[] = [
+            'nama' => $r['nama_pemesan'], 'kategori' => $r['kode_kategori'], 'pameran' => $r['kode_pameran'],
+            'tgl' => $t->format('d') . ' ' . $bulan[(int) $t->format('n')] . ' ' . $t->format('Y'),
+            'hari' => $hari_id[(int) $t->format('w')] . ($akhir_pekan ? ' (Akhir Pekan)' : ' (Hari Kerja)'),
+            'jumlah' => $r['jumlah_tiket'], 'status' => $rombongan ? 'ROMBONGAN' : 'REGULER',
+            'total_bayar' => $sub - ($rombongan ? (int) round($sub * 0.15) : 0) + $layanan_tambahan_master[$r['kode_layanan']]['biaya'],
+        ];
+    }
+}
 ?>
 
     <main id="main-content">
