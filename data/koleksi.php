@@ -10,60 +10,63 @@
 
 require_once __DIR__ . '/../config/database.php';
 
-$file1 = __DIR__ . '/koleksi_1.json';
-$file2 = __DIR__ . '/koleksi_2.json';
+function load_koleksi_data(): array {
+    $file1 = __DIR__ . '/koleksi_1.json';
+    $file2 = __DIR__ . '/koleksi_2.json';
+    $part1 = file_exists($file1) ? (json_decode(file_get_contents($file1), true) ?: []) : [];
+    $part2 = file_exists($file2) ? (json_decode(file_get_contents($file2), true) ?: []) : [];
+    $data  = array_merge($part1, $part2);
 
-$part1 = file_exists($file1) ? (json_decode(file_get_contents($file1), true) ?: []) : [];
-$part2 = file_exists($file2) ? (json_decode(file_get_contents($file2), true) ?: []) : [];
-
-$KOLEKSI_DATA = array_merge($part1, $part2);
-
-// Indeks data JSON berdasarkan nomor inventaris untuk mempertahankan slug & metadata ekstra
-$JSON_BY_INV = [];
-foreach ($KOLEKSI_DATA as $k => $v) {
-    if (!empty($v['inventaris'])) {
-        $JSON_BY_INV[$v['inventaris']] = $k;
-    }
-}
-
-// Jika koneksi basis data MySQL aktif, jadikan tabel koleksi_seni sebagai sumber utama
-$db = get_db_connection();
-if ($db !== null) {
-    try {
-        $stmt = $db->query("SELECT * FROM koleksi_seni ORDER BY id_koleksi ASC");
-        $db_rows = $stmt->fetchAll();
-        if (!empty($db_rows)) {
-            $synced = [];
-            foreach ($db_rows as $row) {
-                $inv = $row['nomor_inventaris'];
-                $slug = $JSON_BY_INV[$inv] ?? strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $row['judul_koleksi']), '-'));
-                $base = $KOLEKSI_DATA[$slug] ?? [];
-                $kategori_code = $row['kategori_koleksi'];
-                $synced[$slug] = array_merge($base, [
-                    'id'            => $slug,
-                    'id_koleksi'    => (int)$row['id_koleksi'],
-                    'inventaris'    => $inv,
-                    'judul'         => $row['judul_koleksi'],
-                    'kategori'      => ucfirst($kategori_code),
-                    'kategori_code' => $kategori_code,
-                    'pencipta'      => $row['seniman_pencipta'],
-                    'tahun'         => $row['tahun_perolehan'] ? ($row['tahun_perolehan'] . ' M') : '-',
-                    'tahun_num'     => (int)$row['tahun_perolehan'],
-                    'asal'          => $row['asal_daerah'] ?: '-',
-                    'medium'        => $row['medium_teknik'] ?: '-',
-                    'dimensi'       => $row['dimensi'] ?: '-',
-                    'ruang3D'       => $row['lokasi_ruang'] ?: 'RUANG 01 — LUKISAN SEJARAH',
-                    'catatan'       => $row['deskripsi'] ?: '',
-                    'gambar'        => $row['gambar'] ?: 'assets/images/diponegoro.jpg',
-                    'tanggal_masuk' => $row['tanggal_masuk'],
-                ]);
-            }
-            $KOLEKSI_DATA = $synced;
+    $by_inv = [];
+    foreach ($data as $k => $v) {
+        if (!empty($v['inventaris'])) {
+            $by_inv[$v['inventaris']] = $k;
         }
-    } catch (Exception $e) {
-        // Gunakan fallback data lokal jika terjadi kendala kueri
     }
+
+    if ($db = get_db_connection()) {
+        try {
+            $db_rows = $db->query("SELECT * FROM koleksi_seni ORDER BY id_koleksi ASC")->fetchAll();
+            if (!empty($db_rows)) {
+                $synced = [];
+                foreach ($db_rows as $row) {
+                    $inv  = $row['nomor_inventaris'];
+                    $slug = $by_inv[$inv] ?? strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $row['judul_koleksi']), '-'));
+                    $base = $data[$slug] ?? [];
+                    $kat  = $row['kategori_koleksi'];
+                    $synced[$slug] = array_merge($base, [
+                        'id'            => $slug,
+                        'id_koleksi'    => (int)$row['id_koleksi'],
+                        'inventaris'    => $inv,
+                        'judul'         => $row['judul_koleksi'],
+                        'kategori'      => ucfirst($kat),
+                        'kategori_code' => $kat,
+                        'pencipta'      => $row['seniman_pencipta'],
+                        'tahun'         => $row['tahun_perolehan'] ? ($row['tahun_perolehan'] . ' M') : '-',
+                        'tahun_num'     => (int)$row['tahun_perolehan'],
+                        'asal'          => $row['asal_daerah'] ?: '-',
+                        'medium'        => $row['medium_teknik'] ?: '-',
+                        'dimensi'       => $row['dimensi'] ?: '-',
+                        'ruang3D'       => $row['lokasi_ruang'] ?: 'RUANG 01 — LUKISAN SEJARAH',
+                        'catatan'       => $row['deskripsi'] ?: '',
+                        'gambar'        => $row['gambar'] ?: 'assets/images/diponegoro.jpg',
+                        'tanggal_masuk' => $row['tanggal_masuk'],
+                        'search_text'   => strtolower(implode(' ', [
+                            $row['judul_koleksi'], $row['seniman_pencipta'], $row['asal_daerah'],
+                            $row['tahun_perolehan'], $kat, $inv, $base['search_text'] ?? ''
+                        ])),
+                    ]);
+                }
+                return $synced;
+            }
+        } catch (Exception $e) {
+            // Gunakan fallback data lokal jika terjadi kendala kueri
+        }
+    }
+    return $data;
 }
+
+$KOLEKSI_DATA = load_koleksi_data();
 
 function normalize_kategori_koleksi(string $kat): string {
     $map = ['tekstil' => 'wastra', 'litografi' => 'artefak'];

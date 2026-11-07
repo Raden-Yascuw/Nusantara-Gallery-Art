@@ -33,23 +33,8 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         ], $id_target);
     }
     // Muat ulang daftar koleksi setelah perubahan
-    if ($hasil_aksi && $hasil_aksi['ok'] && ($db = get_db_connection())) {
-        $KOLEKSI_DATA = [];
-        foreach ($db->query("SELECT * FROM koleksi_seni ORDER BY id_koleksi ASC")->fetchAll() as $row) {
-            $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $row['judul_koleksi']), '-'));
-            $KOLEKSI_DATA[$slug] = [
-                'id'            => $slug,
-                'id_koleksi'    => (int)$row['id_koleksi'],
-                'inventaris'    => $row['nomor_inventaris'],
-                'judul'         => $row['judul_koleksi'],
-                'kategori'      => ucfirst($row['kategori_koleksi']),
-                'kategori_code' => $row['kategori_koleksi'],
-                'pencipta'      => $row['seniman_pencipta'],
-                'tahun_num'     => (int)$row['tahun_perolehan'],
-                'asal'          => $row['asal_daerah'],
-                'ruang3D'       => $row['lokasi_ruang'],
-            ];
-        }
+    if ($hasil_aksi && $hasil_aksi['ok']) {
+        $KOLEKSI_DATA = load_koleksi_data();
     }
 }
 

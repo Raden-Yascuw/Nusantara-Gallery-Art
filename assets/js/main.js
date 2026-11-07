@@ -123,7 +123,7 @@ if (catalogGrid) {
 
       const matchesCategory = activeFilter === 'all' || category === activeFilter;
       const matchesQuery    = query === '' || searchData.includes(query);
-      const matchesYear     = year >= minYear && year <= maxYear;
+      const matchesYear     = year >= minYear && (maxYear >= 1950 || year <= maxYear);
 
       const isVisible = matchesCategory && matchesQuery && matchesYear;
       card.hidden = !isVisible;
