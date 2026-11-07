@@ -59,6 +59,7 @@ if (!isset($current_page)) {
           <a href="about.php"<?= ($current_page === 'tentang') ? ' aria-current="page"' : '' ?>>Tentang</a>
           <?php if ($is_kurator): ?>
             <a href="formulir.php"<?= ($current_page === 'formulir') ? ' aria-current="page"' : '' ?>>Entri GLAM</a>
+            <a href="kelola.php"<?= ($current_page === 'kelola') ? ' aria-current="page"' : '' ?>>Kelola Koleksi</a>
           <?php endif; ?>
         </div>
         <div class="nav-actions">

@@ -120,6 +120,9 @@ include "layout/header.php";
                 <a class="button" href="formulir.php">
                   Buka Formulir Entri GLAM
                 </a>
+                <a class="button button-secondary" href="kelola.php">
+                  Kelola Koleksi (Ubah / Hapus)
+                </a>
                 <a class="text-link" href="layanan.php">
                   Reservasi Tiket &amp; Layanan
                 </a>

@@ -942,31 +942,14 @@ if (viewer) {
   const statusBanner = document.querySelector('[data-form-status]');
 
   glamForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-
     if (!glamForm.checkValidity()) {
+      e.preventDefault();
       glamForm.reportValidity();
       if (statusBanner) {
         statusBanner.hidden = false;
         statusBanner.className = 'form-status-banner is-error';
         statusBanner.textContent = 'Perhatian: Harap lengkapi semua field bertanda bintang (*) sesuai format yang diminta (Completeness & Format Check).';
       }
-      return;
-    }
-
-    const formData = new FormData(glamForm);
-    const judul = formData.get('judul_koleksi') || 'Objek Warisan Budaya';
-    const noInv = formData.get('nomor_inventaris') || 'NG-2026-XXX';
-    const pengusul = formData.get('nama_pengusul') || 'Kurator';
-
-    if (statusBanner) {
-      statusBanner.hidden = false;
-      statusBanner.className = 'form-status-banner is-success';
-      statusBanner.innerHTML = `
-        <strong>Registrasi Metadata Berhasil!</strong><br />
-        Koleksi <em>"${judul}"</em> dengan nomor inventaris <code>${noInv}</code> telah divalidasi oleh ${pengusul} dan tercatat dalam sistem informasi GLAM.
-      `;
-      statusBanner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
   });
 

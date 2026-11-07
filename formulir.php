@@ -1,12 +1,28 @@
 <?php
 // Formulir Entri Koleksi GLAM (Khusus Kurator Terautentikasi)
 require_once __DIR__ . '/config/auth.php';
+require_once __DIR__ . '/data/koleksi.php';
 auth_check();
 
 // Proteksi Akses: Hanya bisa dibuka jika sudah login
 if (empty($_SESSION['kurator_logged_in'])) {
     header("Location: login.php?pesan=wajib_login");
     exit;
+}
+
+$hasil_simpan = null;
+if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
+    $hasil_simpan = save_koleksi_db([
+        'nomor_inventaris' => $_POST['nomor_inventaris'] ?? '',
+        'judul_koleksi'    => $_POST['judul_koleksi'] ?? '',
+        'kategori_koleksi' => $_POST['kategori_koleksi'] ?? 'lukisan',
+        'seniman_pencipta' => $_POST['seniman_pencipta'] ?? ($_POST['nama_pengusul'] ?? 'Anonim Nusantara'),
+        'asal_daerah'      => $_POST['asal_daerah'] ?? 'Nusantara',
+        'medium_teknik'    => $_POST['medium_teknik'] ?? '',
+        'dimensi'          => $_POST['dimensi'] ?? '',
+        'lokasi_ruang'     => $_POST['lokasi_ruang'] ?? '',
+        'deskripsi'        => $_POST['catatan_kurator'] ?? '',
+    ]);
 }
 
 $page_title       = "Formulir Entri Metadata Koleksi — Nusantara Gallery Art";
@@ -30,7 +46,7 @@ include "layout/header.php";
           <span class="session-badge">Hak Akses: <?= htmlspecialchars($kurator_peran) ?></span>
         </div>
         <div class="session-actions">
-          <span class="session-timer" data-session-timer>Mode Akses Terproteksi</span>
+          <a href="kelola.php" class="btn-session-exit">Kelola Koleksi (Ubah / Hapus)</a>
           <a href="login.php?action=logout" class="btn-session-exit" data-session-exit>Keluar Sesi</a>
         </div>
       </div>
@@ -55,7 +71,16 @@ include "layout/header.php";
         </header>
 
         <!-- Formulir Input Pengguna dengan Method POST -->
-        <form action="#" method="POST" class="glam-entry-form" data-glam-form novalidate>
+        <?php if ($hasil_simpan !== null): ?>
+          <div class="form-status-banner <?= $hasil_simpan['ok'] ? 'is-success' : 'is-error' ?>" role="alert">
+            <strong><?= $hasil_simpan['ok'] ? 'Registrasi Metadata Berhasil:' : 'Perhatian:' ?></strong>
+            <?= htmlspecialchars($hasil_simpan['msg']) ?>
+            <?php if ($hasil_simpan['ok']): ?>
+              — <a href="kelola.php" class="text-link">Lihat di Kelola Koleksi</a>
+            <?php endif; ?>
+          </div>
+        <?php endif; ?>
+        <form action="formulir.php" method="POST" class="glam-entry-form" data-glam-form novalidate>
           
           <!-- Bagian 1: Identitas Pengusul / Kurator -->
           <fieldset class="form-fieldset">
@@ -215,10 +240,22 @@ include "layout/header.php";
                   id="tanggal_pendataan" 
                   name="tanggal_pendataan" 
                   class="form-control" 
+                  value="<?= date('Y-m-d') ?>"
                   required 
                   aria-describedby="hint-tanggal"
                 />
                 <small id="hint-tanggal" class="form-hint">Format-Specific Date: menentukan penanggalan arsip secara ISO (YYYY-MM-DD).</small>
+              </div>
+            </div>
+
+            <div class="form-row-grid">
+              <div class="form-group">
+                <label for="seniman_pencipta">Maestro / Seniman / Pencipta</label>
+                <input type="text" id="seniman_pencipta" name="seniman_pencipta" class="form-control" placeholder="Contoh: Raden Saleh (c. 1811–1880)" />
+              </div>
+              <div class="form-group">
+                <label for="asal_daerah">Asal Daerah / Wilayah Kultural</label>
+                <input type="text" id="asal_daerah" name="asal_daerah" class="form-control" placeholder="Contoh: Jawa Tengah" />
               </div>
             </div>
 
